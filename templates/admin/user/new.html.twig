@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'user.create.title'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'user.create.heading'|trans }}</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-primary">{{ 'action.create'|trans }}</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('admin_user_index') }}" class="btn btn-secondary">{{ 'action.back_to_list'|trans }}</a>
+{% endblock %}

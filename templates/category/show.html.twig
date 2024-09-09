@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.category_details'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ category.title }}</h1>
+
+    <p>{{ 'label.created_at'|trans }}: {{ category.createdAt|date('Y-m-d H:i') }}</p>
+    <p>{{ 'label.updated_at'|trans }}: {{ category.updatedAt|date('Y-m-d H:i') }}</p>
+
+    <h2>{{ 'label.related_notices'|trans }}</h2>
+    {% if notices|length > 0 %}
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>{{ 'label.title'|trans }}</th>
+                <th>{{ 'label.created_at'|trans }}</th>
+                <th>{{ 'label.actions'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for notice in notices %}
+                <tr>
+                    <td>{{ notice.id }}</td>
+                    <td>{{ notice.title }}</td>
+                    <td>{{ notice.createdAt|date('Y-m-d H:i') }}</td>
+                    <td>
+                        <a href="{{ path('notice_show', {'id': notice.id}) }}">{{ 'action.show'|trans }}</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>{{ 'message.no_related_notices'|trans }}</p>
+    {% endif %}
+
+    <a href="{{ path('category_index') }}" class="btn btn-secondary">{{ 'action.back_to_list'|trans }}</a>
+    <a href="{{ path('category_edit', {'id': category.id}) }}" class="btn btn-primary">{{ 'action.edit_category'|trans }}</a>
+    <a href="{{ path('category_delete', {'id': category.id}) }}" class="btn btn-danger">{{ 'action.delete_category'|trans }}</a>
+{% endblock %}

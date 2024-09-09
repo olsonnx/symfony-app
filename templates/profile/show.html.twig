@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'profile.show.title'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'profile.show.heading'|trans }}</h1>
+
+    <p><strong>{{ 'label.email'|trans }}:</strong> {{ user.email }}</p>
+
+    <a href="{{ path('change_password') }}" class="btn btn-warning">{{ 'action.change_password'|trans }}</a>
+
+    <a href="{{ path('profile_edit') }}" class="btn btn-primary">{{ 'action.edit_profile'|trans }}</a>
+{% endblock %}
