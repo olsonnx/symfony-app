@@ -1,0 +1,10 @@
+{# templates/error/404.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'error.404.title'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'error.404.heading'|trans }}</h1>
+    <p>{{ 'error.404.message'|trans }}</p>
+    <a href="{{ path('notice_index') }}">{{ 'action.go_back_to_list'|trans }}</a>
+{% endblock %}

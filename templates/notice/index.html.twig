@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title.notice_list'|trans }}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'title.notice_list'|trans }}</h1>
+
+    <!-- Przycisk do przechodzenia do listy kategorii -->
+    <a href="{{ path('category_index') }}" class="btn btn-secondary mb-3 mr-2">{{ 'action.view_categories'|trans }}</a>
+
+    <a href="{{ path('tag_index') }}" class="btn btn-secondary mb-3 mr-2">{{ 'action.view_tags'|trans }}</a>
+
+    <!-- Przycisk do tworzenia nowego ogłoszenia -->
+    <a href="{{ path('notice_create') }}" class="btn btn-primary mb-3">{{ 'action.create_notice'|trans }}</a>
+
+    <!-- Sprawdzenie czy są elementy w paginacji -->
+    {% if pagination is defined and pagination.items|length %}
+        <div class="navigation text-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'notice.id') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'notice.title') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.createdAt'|trans, 'notice.createdAt') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.updatedAt'|trans, 'notice.updatedAt') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.category'|trans, 'category.title') }}</th>
+                <th>{{ 'label.tags'|trans }}</th>
+                <th scope="col">{{ 'label.actions'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for notice in pagination.items %}
+                <tr>
+                    <td>{{ notice.id }}</td>
+                    <td>{{ notice.title }}</td>
+                    <td>{{ notice.createdAt|date('Y/m/d') }}</td>
+                    <td>{{ notice.updatedAt|date('Y/m/d') }}</td>
+                    <td>
+                        <a class="btn btn-outline-primary" href="{{ path('notice_index', {'categoryId' : notice.category.id}) }}" title="{{ notice.category.title }}">
+                            {{ notice.category.title }}
+                        </a>
+                    </td>
+                    <td>
+                        {% if notice.tags is defined and notice.tags|length %}
+                            {% for tag in notice.tags %}
+                                <a class="btn btn-outline-primary" href="{{ path('notice_index', {'tagId' : tag.id}) }}" title="{{ tag.title }}">
+                                    {{ tag.title }}
+                                </a>
+                            {% endfor %}
+                        {% else %}
+                            &nbsp;
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-primary" href="{{ path('notice_show', {id: notice.id}) }}" title="{{ 'action.show'|trans }}">
+                            {{ 'action.show'|trans }}
+                        </a>
+
+                        {% if is_granted('EDIT', notice) %}
+                            <a class="btn btn-outline-success" href="{{ path('notice_edit', {id: notice.id}) }}" title="{{ 'action.edit'|trans }}">
+                                {{ 'action.edit'|trans }}
+                            </a>
+                        {% endif %}
+
+                        {% if is_granted('DELETE', notice) %}
+                            <a class="btn btn-outline-danger" href="{{ path('notice_delete', {id: notice.id}) }}" title="{{ 'action.delete'|trans }}">
+                                {{ 'action.delete'|trans }}
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">{{ 'message.empty_list'|trans }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="navigation text-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+    {% else %}
+        <p>{{ 'message.empty_list'|trans }}</p>
+    {% endif %}
+{% endblock %}
