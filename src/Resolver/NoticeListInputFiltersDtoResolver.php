@@ -34,7 +34,7 @@ class NoticeListInputFiltersDtoResolver implements ValueResolverInterface
 
         $categoryId = $request->query->get('categoryId');
         $tagId = $request->query->get('tagId');
-        $statusId = $request->query->get('statusId', NoticeStatus::ACTIVE->value);
+        $statusId = $request->query->get('statusId', NoticeStatus::STATUS_ACTIVE->value);
 
         return [new NoticeListInputFiltersDto($categoryId, $tagId, $statusId)];
     }
