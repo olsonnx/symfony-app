@@ -20,22 +20,11 @@ class NoticeVoter extends Voter
     private const VIEW = 'VIEW';
     private const DELETE = 'DELETE';
 
-    /**
-     * @param string $attribute
-     * @param mixed $subject
-     * @return bool
-     */
     protected function supports(string $attribute, mixed $subject): bool
     {
         return in_array($attribute, [self::EDIT, self::VIEW, self::DELETE]) && $subject instanceof Notice;
     }
 
-    /**
-     * @param string $attribute
-     * @param mixed $subject
-     * @param TokenInterface $token
-     * @return bool
-     */
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
@@ -56,21 +45,11 @@ class NoticeVoter extends Voter
         };
     }
 
-    /**
-     * @param Notice $notice
-     * @param UserInterface $user
-     * @return bool
-     */
     private function canEdit(Notice $notice, UserInterface $user): bool
     {
         return $notice->getAuthor() === $user || in_array('ROLE_ADMIN', $user->getRoles());
     }
 
-    /**
-     * @param Notice $notice
-     * @param UserInterface $user
-     * @return bool
-     */
     private function canView(Notice $notice, UserInterface $user): bool
     {
         // Admins can view all notices
@@ -79,14 +58,9 @@ class NoticeVoter extends Voter
         }
 
         // Everyone can view active notices
-        return $notice->getStatus() === NoticeStatus::STATUS_ACTIVE;
+        return NoticeStatus::STATUS_ACTIVE === $notice->getStatus();
     }
 
-    /**
-     * @param Notice $notice
-     * @param UserInterface $user
-     * @return bool
-     */
     private function canDelete(Notice $notice, UserInterface $user): bool
     {
         return $notice->getAuthor() === $user || in_array('ROLE_ADMIN', $user->getRoles());

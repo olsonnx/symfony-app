@@ -19,8 +19,6 @@ class TagRepository extends ServiceEntityRepository
 {
     /**
      * Constructor.
-     *
-     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -44,9 +42,10 @@ class TagRepository extends ServiceEntityRepository
      * Get or create new query builder.
      *
      * @param QueryBuilder|null $queryBuilder Query builder
+     *
      * @return QueryBuilder Query builder
      */
-    private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
+    private function getOrCreateQueryBuilder(?QueryBuilder $queryBuilder = null): QueryBuilder
     {
         return $queryBuilder ?? $this->createQueryBuilder('tag');
     }

@@ -10,7 +10,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
- * Tag Service
+ * Tag Service.
  */
 class TagService implements TagServiceInterface
 {
@@ -19,11 +19,7 @@ class TagService implements TagServiceInterface
     private PaginatorInterface $paginator;
 
     /**
-     *  Constructor
-     *
-     * @param TagRepository $tagRepository
-     * @param EntityManagerInterface $entityManager
-     * @param PaginatorInterface $paginator
+     *  Constructor.
      */
     public function __construct(TagRepository $tagRepository, EntityManagerInterface $entityManager, PaginatorInterface $paginator)
     {
@@ -59,9 +55,6 @@ class TagService implements TagServiceInterface
 
     /**
      * Find or create a tag by title.
-     *
-     * @param string $title
-     * @return Tag|null
      */
     public function findOneByTitle(string $title): ?Tag
     {
@@ -70,8 +63,6 @@ class TagService implements TagServiceInterface
 
     /**
      * Save a tag entity.
-     *
-     * @param Tag $tag
      */
     public function save(Tag $tag): void
     {
@@ -81,8 +72,6 @@ class TagService implements TagServiceInterface
 
     /**
      * Delete a tag entity.
-     *
-     * @param Tag $tag
      */
     public function delete(Tag $tag): void
     {
@@ -92,11 +81,6 @@ class TagService implements TagServiceInterface
 
     /**
      * Get paginated list of tags with sorting.
-     *
-     * @param int $page
-     * @param string $sort
-     * @param string $direction
-     * @return PaginationInterface
      */
     public function getPaginatedList(int $page, string $sort, string $direction): PaginationInterface
     {
@@ -105,6 +89,7 @@ class TagService implements TagServiceInterface
 
         return $this->paginator->paginate($query, $page, 10);
     }
+
     /**
      * Find by id.
      *

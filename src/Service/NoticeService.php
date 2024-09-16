@@ -37,18 +37,18 @@ class NoticeService implements NoticeServiceInterface
     /**
      * Constructor.
      *
-     * @param CategoryServiceInterface $categoryService   Category service
-     * @param PaginatorInterface       $paginator         Paginator
-     * @param TagServiceInterface      $tagService        Tag service
-     * @param NoticeRepository         $noticeRepository  Notice repository
-     * @param EntityManagerInterface   $entityManager     Entity Manager
+     * @param CategoryServiceInterface $categoryService  Category service
+     * @param PaginatorInterface       $paginator        Paginator
+     * @param TagServiceInterface      $tagService       Tag service
+     * @param NoticeRepository         $noticeRepository Notice repository
+     * @param EntityManagerInterface   $entityManager    Entity Manager
      */
     public function __construct(
         private readonly CategoryServiceInterface $categoryService,
         private readonly PaginatorInterface $paginator,
         private readonly TagServiceInterface $tagService,
         private readonly NoticeRepository $noticeRepository,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
     ) {
         $this->entityManager = $entityManager;
     }
@@ -59,6 +59,7 @@ class NoticeService implements NoticeServiceInterface
      * @param NoticeListInputFiltersDto $filters Raw filters from request
      *
      * @return NoticeListFiltersDto Result filters
+     *
      * @throws NonUniqueResultException
      */
     private function prepareFilters(NoticeListInputFiltersDto $filters): NoticeListFiltersDto
@@ -67,17 +68,13 @@ class NoticeService implements NoticeServiceInterface
             null !== $filters->categoryId ? $this->categoryService->findOneById($filters->categoryId) : null,
             null !== $filters->tagId ? $this->tagService->findOneById($filters->tagId) : null,
             // Ustaw status jako null, jeĹ›li uĹĽytkownik ma rolÄ™ administratora (statusId = -1)
-            $filters->statusId === -1 ? null : NoticeStatus::from($filters->statusId)
+            -1 === $filters->statusId ? null : NoticeStatus::from($filters->statusId)
         );
     }
 
     /**
-     * get paginated list
+     * get paginated list.
      *
-     * @param int $page
-     * @param User|null $author
-     * @param NoticeListInputFiltersDto $filters
-     * @return PaginationInterface
      * @throws NonUniqueResultException
      */
     public function getPaginatedList(int $page, ?User $author, NoticeListInputFiltersDto $filters): PaginationInterface
@@ -101,7 +98,6 @@ class NoticeService implements NoticeServiceInterface
             self::PAGINATOR_ITEMS_PER_PAGE
         );
     }
-
 
     /**
      * Get a single notice by ID.

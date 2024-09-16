@@ -42,8 +42,6 @@ interface CategoryServiceInterface
      * Delete a category.
      *
      * @param Category $category Encja kategorii
-     *
-     * @return void
      */
     public function delete(Category $category): void;
 

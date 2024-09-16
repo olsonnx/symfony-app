@@ -12,7 +12,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Class ChangePasswordController
+ * Class ChangePasswordController.
  */
 #[Route('/change-password')]
 #[IsGranted('ROLE_USER')]
@@ -23,9 +23,6 @@ class ChangePasswordController extends AbstractController
 
     /**
      * Constructor.
-     *
-     * @param ChangePasswordServiceInterface $changePasswordService
-     * @param TranslatorInterface $translator
      */
     public function __construct(ChangePasswordServiceInterface $changePasswordService, TranslatorInterface $translator)
     {
@@ -35,10 +32,6 @@ class ChangePasswordController extends AbstractController
 
     /**
      * Change password action.
-     *
-     * @param Request $request
-     * @param UserInterface $user
-     * @return Response
      */
     #[Route('/', name: 'change_password', methods: ['GET', 'POST'])]
     public function changePassword(Request $request, UserInterface $user): Response

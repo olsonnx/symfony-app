@@ -19,8 +19,6 @@ class CategoryRepository extends ServiceEntityRepository
 {
     /**
      * Constructor.
-     *
-     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -44,17 +42,16 @@ class CategoryRepository extends ServiceEntityRepository
      * Get or create new query builder.
      *
      * @param QueryBuilder|null $queryBuilder Query builder
+     *
      * @return QueryBuilder Query builder
      */
-    private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
+    private function getOrCreateQueryBuilder(?QueryBuilder $queryBuilder = null): QueryBuilder
     {
         return $queryBuilder ?? $this->createQueryBuilder('category');
     }
 
     /**
      * Save entity.
-     *
-     * @param Category $category
      */
     public function save(Category $category): void
     {
@@ -64,8 +61,6 @@ class CategoryRepository extends ServiceEntityRepository
 
     /**
      * Delete entity.
-     *
-     * @param Category $category
      */
     public function delete(Category $category): void
     {

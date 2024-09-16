@@ -19,8 +19,6 @@ class RegistrationController extends AbstractController
 
     /**
      * Constructor.
-     *
-     * @param RegistrationServiceInterface $registrationService
      */
     public function __construct(RegistrationServiceInterface $registrationService)
     {
@@ -29,9 +27,6 @@ class RegistrationController extends AbstractController
 
     /**
      * Register a new user.
-     *
-     * @param Request $request
-     * @return Response
      */
     #[Route('/register', name: 'app_register', methods: ['GET', 'POST'])]
     public function register(Request $request): Response

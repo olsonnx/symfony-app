@@ -16,9 +16,6 @@ class ChangePasswordService implements ChangePasswordServiceInterface
 
     /**
      * Constructor.
-     *
-     * @param UserPasswordHasherInterface $passwordHasher
-     * @param EntityManagerInterface $entityManager
      */
     public function __construct(UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager)
     {
@@ -29,8 +26,8 @@ class ChangePasswordService implements ChangePasswordServiceInterface
     /**
      * Change the password for a user.
      *
-     * @param UserInterface $user The user entity
-     * @param string $newPassword The new password
+     * @param UserInterface $user        The user entity
+     * @param string        $newPassword The new password
      */
     public function changePassword(UserInterface $user, string $newPassword): void
     {

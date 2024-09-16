@@ -6,7 +6,6 @@
 namespace App\Entity;
 
 use App\Repository\CategoryRepository;
-use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -24,8 +23,6 @@ class Category
 {
     /**
      * Primary key.
-     *
-     * @var int|null
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -34,28 +31,22 @@ class Category
 
     /**
      * Created at.
-     *
-     * @var DateTimeImmutable|null
      */
     #[ORM\Column(type: 'datetime_immutable')]
-    #[Assert\Type(DateTimeImmutable::class)]
+    #[Assert\Type(\DateTimeImmutable::class)]
     #[Gedmo\Timestampable(on: 'create')]
-    private ?DateTimeImmutable $createdAt = null;
+    private ?\DateTimeImmutable $createdAt = null;
 
     /**
      * Updated at.
-     *
-     * @var DateTimeImmutable|null
      */
     #[ORM\Column(type: 'datetime_immutable')]
-    #[Assert\Type(DateTimeImmutable::class)]
+    #[Assert\Type(\DateTimeImmutable::class)]
     #[Gedmo\Timestampable(on: 'update')]
-    private ?DateTimeImmutable $updatedAt = null;
+    private ?\DateTimeImmutable $updatedAt = null;
 
     /**
      * Title.
-     *
-     * @var string|null
      */
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\Type('string')]
@@ -65,8 +56,6 @@ class Category
 
     /**
      * Slug.
-     *
-     * @var string|null
      */
     #[ORM\Column(type: 'string', length: 64)]
     #[Assert\Type('string')]
@@ -94,8 +83,6 @@ class Category
 
     /**
      * Get the ID.
-     *
-     * @return int|null
      */
     public function getId(): ?int
     {
@@ -106,10 +93,8 @@ class Category
 
     /**
      * Get created at.
-     *
-     * @return DateTimeImmutable|null
      */
-    public function getCreatedAt(): ?DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
@@ -117,12 +102,12 @@ class Category
     /**
      * Set created at.
      *
-     * @param DateTimeImmutable $createdAt
      * @return $this
      */
-    public function setCreatedAt(DateTimeImmutable $createdAt): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
         return $this;
     }
 
@@ -130,10 +115,8 @@ class Category
 
     /**
      * Get updated at.
-     *
-     * @return DateTimeImmutable|null
      */
-    public function getUpdatedAt(): ?DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
     }
@@ -141,12 +124,12 @@ class Category
     /**
      * Set updated at.
      *
-     * @param DateTimeImmutable $updatedAt
      * @return $this
      */
-    public function setUpdatedAt(DateTimeImmutable $updatedAt): static
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
+
         return $this;
     }
 
@@ -154,8 +137,6 @@ class Category
 
     /**
      * Get the title.
-     *
-     * @return string|null
      */
     public function getTitle(): ?string
     {
@@ -165,12 +146,12 @@ class Category
     /**
      * Set the title.
      *
-     * @param string $title
      * @return $this
      */
     public function setTitle(string $title): static
     {
         $this->title = $title;
+
         return $this;
     }
 
@@ -183,8 +164,8 @@ class Category
      */
     public function setCreatedAtValue(): void
     {
-        if ($this->createdAt === null) {
-            $this->createdAt = new DateTimeImmutable();  // Set the current date and time when creating
+        if (null === $this->createdAt) {
+            $this->createdAt = new \DateTimeImmutable();  // Set the current date and time when creating
         }
     }
 
@@ -197,15 +178,13 @@ class Category
      */
     public function setUpdatedAtValue(): void
     {
-        $this->updatedAt = new DateTimeImmutable();  // Set the current date and time for each update
+        $this->updatedAt = new \DateTimeImmutable();  // Set the current date and time for each update
     }
 
     // Getter and setter for slug
 
     /**
      * Get the slug.
-     *
-     * @return string|null
      */
     public function getSlug(): ?string
     {
@@ -215,12 +194,12 @@ class Category
     /**
      * Set the slug.
      *
-     * @param string $slug
      * @return $this
      */
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
+
         return $this;
     }
 
@@ -228,8 +207,6 @@ class Category
 
     /**
      * Get all notices related to this category.
-     *
-     * @return Collection
      */
     public function getNotices(): Collection
     {
@@ -239,7 +216,6 @@ class Category
     /**
      * Add a notice to the category.
      *
-     * @param Notice $notice
      * @return $this
      */
     public function addNotice(Notice $notice): static
@@ -255,7 +231,6 @@ class Category
     /**
      * Remove a notice from the category.
      *
-     * @param Notice $notice
      * @return $this
      */
     public function removeNotice(Notice $notice): static

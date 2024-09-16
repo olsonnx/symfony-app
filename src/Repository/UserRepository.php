@@ -19,8 +19,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 {
     /**
      * Constructor.
-     *
-     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -30,8 +28,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     /**
      * Upgrade the user's password automatically over time.
      *
-     * @param PasswordAuthenticatedUserInterface $user
-     * @param string $newHashedPassword
      * @throws UnsupportedUserException
      */
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
@@ -64,7 +60,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     /**
      * Find users by a specific field.
      *
-     * @param mixed $value
      * @return User[] Returns an array of User objects
      */
     public function findByExampleField($value): array
@@ -80,9 +75,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     /**
      * Find a single user by a specific field.
-     *
-     * @param mixed $value
-     * @return User|null
      */
     public function findOneBySomeField($value): ?User
     {
@@ -96,7 +88,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     /**
      * Find all users by role (optimized with partial data).
      *
-     * @param string $role
      * @return User[] Returns an array of User objects with limited fields
      */
     public function findAllByRole(string $role): array
@@ -114,9 +105,10 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      * Get or create new query builder.
      *
      * @param QueryBuilder|null $queryBuilder Query builder
+     *
      * @return QueryBuilder Query builder
      */
-    private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
+    private function getOrCreateQueryBuilder(?QueryBuilder $queryBuilder = null): QueryBuilder
     {
         return $queryBuilder ?? $this->createQueryBuilder('u');
     }

@@ -11,9 +11,6 @@ interface RegistrationServiceInterface
 {
     /**
      * Register a new user.
-     *
-     * @param User $user
-     * @param string $plainPassword
      */
     public function register(User $user, string $plainPassword): void;
 }

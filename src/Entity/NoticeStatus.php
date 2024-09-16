@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 /**
- * Notice Status
+ * Notice Status.
  */
 class NoticeStatus
 {
@@ -13,8 +13,6 @@ class NoticeStatus
 
     /**
      * Zwraca wszystkie dostępne statusy.
-     *
-     * @return array
      */
     public static function getAvailableStatuses(): array
     {

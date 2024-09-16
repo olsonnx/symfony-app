@@ -5,9 +5,7 @@
 
 namespace App\Entity;
 
-use App\Entity\NoticeStatus;
 use App\Repository\NoticeRepository;
-use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -24,8 +22,6 @@ class Notice
 {
     /**
      * Primary key.
-     *
-     * @var int|null
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -34,8 +30,6 @@ class Notice
 
     /**
      * Title.
-     *
-     * @var string|null
      */
     #[ORM\Column(length: 255, nullable: false)]
     #[Assert\NotBlank(message: 'title.not_blank')]
@@ -44,26 +38,20 @@ class Notice
 
     /**
      * Created at.
-     *
-     * @var DateTimeImmutable|null
      */
     #[ORM\Column(type: 'datetime_immutable')]
     #[Gedmo\Timestampable(on: 'create')]
-    private ?DateTimeImmutable $createdAt = null;
+    private ?\DateTimeImmutable $createdAt = null;
 
     /**
      * Updated at.
-     *
-     * @var DateTimeImmutable|null
      */
     #[ORM\Column(type: 'datetime_immutable')]
     #[Gedmo\Timestampable(on: 'update')]
-    private ?DateTimeImmutable $updatedAt = null;
+    private ?\DateTimeImmutable $updatedAt = null;
 
     /**
      * Content.
-     *
-     * @var string|null
      */
     #[ORM\Column(length: 4096, nullable: true)]
     #[Assert\NotBlank(message: 'title.not_blank')]
@@ -72,8 +60,6 @@ class Notice
 
     /**
      * Category.
-     *
-     * @var Category|null
      */
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'notices', fetch: 'EXTRA_LAZY')]
     #[ORM\JoinColumn(nullable: false)]
@@ -90,8 +76,6 @@ class Notice
 
     /**
      * Author.
-     *
-     * @var User|null
      */
     #[ORM\ManyToOne(targetEntity: User::class, fetch: 'EXTRA_LAZY')]
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
@@ -99,8 +83,6 @@ class Notice
 
     /**
      * Status of the notice.
-     *
-     * @var string|null
      */
     #[ORM\Column(type: 'string', length: 50)]
     private ?string $status = null;
@@ -115,8 +97,6 @@ class Notice
 
     /**
      * Get the notice ID.
-     *
-     * @return int|null
      */
     public function getId(): ?int
     {
@@ -125,8 +105,6 @@ class Notice
 
     /**
      * Get the notice title.
-     *
-     * @return string|null
      */
     public function getTitle(): ?string
     {
@@ -136,39 +114,33 @@ class Notice
     /**
      * Set the notice title.
      *
-     * @param string $title
      * @return $this
      */
     public function setTitle(string $title): static
     {
         $this->title = $title;
+
         return $this;
     }
 
     /**
      * Get the creation date.
-     *
-     * @return DateTimeImmutable|null
      */
-    public function getCreatedAt(): ?DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
 
     /**
      * Get the last update date.
-     *
-     * @return DateTimeImmutable|null
      */
-    public function getUpdatedAt(): ?DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
     /**
      * Get the content.
-     *
-     * @return string|null
      */
     public function getContent(): ?string
     {
@@ -178,19 +150,17 @@ class Notice
     /**
      * Set the content.
      *
-     * @param string|null $content
      * @return $this
      */
     public function setContent(?string $content): static
     {
         $this->content = $content;
+
         return $this;
     }
 
     /**
      * Get the category.
-     *
-     * @return Category|null
      */
     public function getCategory(): ?Category
     {
@@ -200,12 +170,12 @@ class Notice
     /**
      * Set the category.
      *
-     * @param Category|null $category
      * @return $this
      */
     public function setCategory(?Category $category): static
     {
         $this->category = $category;
+
         return $this;
     }
 
@@ -222,7 +192,6 @@ class Notice
     /**
      * Add a tag.
      *
-     * @param Tag $tag
      * @return $this
      */
     public function addTag(Tag $tag): static
@@ -237,19 +206,17 @@ class Notice
     /**
      * Remove a tag.
      *
-     * @param Tag $tag
      * @return $this
      */
     public function removeTag(Tag $tag): static
     {
         $this->tags->removeElement($tag);
+
         return $this;
     }
 
     /**
      * Get the author.
-     *
-     * @return User|null
      */
     public function getAuthor(): ?User
     {
@@ -259,19 +226,17 @@ class Notice
     /**
      * Set the author.
      *
-     * @param User|null $author
      * @return $this
      */
     public function setAuthor(?User $author): static
     {
         $this->author = $author;
+
         return $this;
     }
 
     /**
      * Get the notice status.
-     *
-     * @return string|null
      */
     public function getStatus(): ?string
     {
@@ -281,7 +246,6 @@ class Notice
     /**
      * Set the notice status.
      *
-     * @param string $status
      * @return $this
      */
     public function setStatus(string $status): static
@@ -291,13 +255,12 @@ class Notice
         }
 
         $this->status = $status;
+
         return $this;
     }
 
     /**
      * Get the label of the current status.
-     *
-     * @return string
      */
     public function getStatusLabel(): string
     {
