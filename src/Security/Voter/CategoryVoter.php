@@ -16,12 +16,23 @@ class CategoryVoter extends Voter
     private const VIEW = 'VIEW';
     private const DELETE = 'DELETE';
 
+    /**
+     * @param string $attribute
+     * @param mixed $subject
+     * @return bool
+     */
     protected function supports(string $attribute, mixed $subject): bool
     {
         return in_array($attribute, [self::EDIT, self::VIEW, self::DELETE])
             && $subject instanceof Category;
     }
 
+    /**
+     * @param string $attribute
+     * @param mixed $subject
+     * @param TokenInterface $token
+     * @return bool
+     */
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
@@ -42,16 +53,31 @@ class CategoryVoter extends Voter
         };
     }
 
+    /**
+     * @param Category $category
+     * @param UserInterface $user
+     * @return bool
+     */
     private function canEdit(Category $category, UserInterface $user): bool
     {
         return $user->getRoles() === ['ROLE_ADMIN'];
     }
 
+    /**
+     * @param Category $category
+     * @param UserInterface $user
+     * @return bool
+     */
     private function canView(Category $category, UserInterface $user): bool
     {
-        return true; // Zakładamy, że kategorie mogą być oglądane przez wszystkich
+        return true; // ZakĹ‚adamy, ĹĽe kategorie mogÄ… byÄ‡ oglÄ…dane przez wszystkich
     }
 
+    /**
+     * @param Category $category
+     * @param UserInterface $user
+     * @return bool
+     */
     private function canDelete(Category $category, UserInterface $user): bool
     {
         return $user->getRoles() === ['ROLE_ADMIN'];

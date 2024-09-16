@@ -27,7 +27,7 @@ interface CategoryServiceInterface
      *
      * @param int $categoryId ID kategorii
      *
-     * @return array|null Zwraca tablicę z kategorią i jej ogłoszeniami lub null, jeśli nie znaleziono
+     * @return array|null Zwraca tablicÄ™ z kategoriÄ… i jej ogĹ‚oszeniami lub null, jeĹ›li nie znaleziono
      */
     public function getCategoryWithNotices(int $categoryId): ?array;
 

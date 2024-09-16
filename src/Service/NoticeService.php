@@ -5,17 +5,17 @@
 
 namespace App\Service;
 
-use App\Entity\Notice;
+use App\Dto\NoticeListFiltersDto;
 use App\Dto\NoticeListInputFiltersDto;
+use App\Entity\Notice;
+use App\Entity\NoticeStatus;
 use App\Entity\Tag;
 use App\Entity\User;
-use App\Dto\NoticeListFiltersDto;
-use App\Entity\Enum\NoticeStatus;
 use App\Repository\NoticeRepository;
-use Knp\Component\Pager\PaginatorInterface;
-use Knp\Component\Pager\Pagination\PaginationInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\TagRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * Class NoticeService.
@@ -23,14 +23,14 @@ use App\Repository\TagRepository;
 class NoticeService implements NoticeServiceInterface
 {
     /**
-     * Liczba elementów na stronę.
+     * Liczba elementĂłw na stronÄ™.
      *
      * @constant int
      */
     private const PAGINATOR_ITEMS_PER_PAGE = 10;
 
     /**
-     * @var EntityManagerInterface Entity Manager do zarządzania encjami
+     * @var EntityManagerInterface Entity Manager do zarzÄ…dzania encjami
      */
     private EntityManagerInterface $entityManager;
 
@@ -59,32 +59,42 @@ class NoticeService implements NoticeServiceInterface
      * @param NoticeListInputFiltersDto $filters Raw filters from request
      *
      * @return NoticeListFiltersDto Result filters
+     * @throws NonUniqueResultException
      */
     private function prepareFilters(NoticeListInputFiltersDto $filters): NoticeListFiltersDto
     {
         return new NoticeListFiltersDto(
             null !== $filters->categoryId ? $this->categoryService->findOneById($filters->categoryId) : null,
             null !== $filters->tagId ? $this->tagService->findOneById($filters->tagId) : null,
-            // Ustaw status jako null, jeśli użytkownik ma rolę administratora (statusId = -1)
-            $filters->statusId === -1 ? null : NoticeStatus::tryFrom($filters->statusId)
+            // Ustaw status jako null, jeĹ›li uĹĽytkownik ma rolÄ™ administratora (statusId = -1)
+            $filters->statusId === -1 ? null : NoticeStatus::from($filters->statusId)
         );
     }
 
+    /**
+     * get paginated list
+     *
+     * @param int $page
+     * @param User|null $author
+     * @param NoticeListInputFiltersDto $filters
+     * @return PaginationInterface
+     * @throws NonUniqueResultException
+     */
     public function getPaginatedList(int $page, ?User $author, NoticeListInputFiltersDto $filters): PaginationInterface
     {
-        // Przekształć NoticeListInputFiltersDto na NoticeListFiltersDto
+        // PrzeksztaĹ‚Ä‡ NoticeListInputFiltersDto na NoticeListFiltersDto
         $filters = $this->prepareFilters($filters);
 
-        // Jeśli admin, nie ograniczaj po autorze
+        // JeĹ›li admin, nie ograniczaj po autorze
         if ($author && in_array('ROLE_ADMIN', $author->getRoles())) {
             return $this->paginator->paginate(
-                $this->noticeRepository->queryAll($filters),  // Przekaż odpowiednie filtry
+                $this->noticeRepository->queryAll($filters),  // PrzekaĹĽ odpowiednie filtry
                 $page,
                 self::PAGINATOR_ITEMS_PER_PAGE
             );
         }
 
-        // Inni użytkownicy widzą tylko swoje ogłoszenia lub publiczne
+        // Inni uĹĽytkownicy widzÄ… tylko swoje ogĹ‚oszenia lub publiczne
         return $this->paginator->paginate(
             $this->noticeRepository->queryByAuthor($author, $filters),
             $page,
@@ -96,11 +106,11 @@ class NoticeService implements NoticeServiceInterface
     /**
      * Get a single notice by ID.
      *
-     * Pobiera pojedyncze ogłoszenie na podstawie ID.
+     * Pobiera pojedyncze ogĹ‚oszenie na podstawie ID.
      *
-     * @param int $noticeId ID ogłoszenia
+     * @param int $noticeId ID ogĹ‚oszenia
      *
-     * @return Notice|null Zwraca obiekt ogłoszenia lub null, jeśli nie znaleziono
+     * @return Notice|null Zwraca obiekt ogĹ‚oszenia lub null, jeĹ›li nie znaleziono
      */
     public function getNotice(int $noticeId): ?Notice
     {
@@ -121,9 +131,9 @@ class NoticeService implements NoticeServiceInterface
     /**
      * Delete a notice.
      *
-     * Usuwa ogłoszenie.
+     * Usuwa ogĹ‚oszenie.
      *
-     * @param Notice $notice Encja ogłoszenia
+     * @param Notice $notice Encja ogĹ‚oszenia
      */
     public function delete(Notice $notice): void
     {
@@ -134,15 +144,15 @@ class NoticeService implements NoticeServiceInterface
     /**
      * Can Notice be deleted?
      *
-     * Sprawdza, czy ogłoszenie może być usunięte.
+     * Sprawdza, czy ogĹ‚oszenie moĹĽe byÄ‡ usuniÄ™te.
      *
      * @param Notice $notice Notice entity
      *
-     * @return bool Czy ogłoszenie może być usunięte
+     * @return bool Czy ogĹ‚oszenie moĹĽe byÄ‡ usuniÄ™te
      */
     public function canBeDeleted(Notice $notice): bool
     {
-        // Tutaj możesz dodać dodatkowe logiki, np. czy są zależności, które blokują usunięcie.
+        // Tutaj moĹĽesz dodaÄ‡ dodatkowe logiki, np. czy sÄ… zaleĹĽnoĹ›ci, ktĂłre blokujÄ… usuniÄ™cie.
         return true;
     }
 

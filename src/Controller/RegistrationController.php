@@ -4,32 +4,32 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\Type\RegistrationType;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\RegistrationServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * Class RegistrationController.
  */
 class RegistrationController extends AbstractController
 {
-    private UserPasswordHasherInterface $passwordHasher;
-    private EntityManagerInterface $entityManager;
+    private RegistrationServiceInterface $registrationService;
 
     /**
-     * @param UserPasswordHasherInterface $passwordHasher
-     * @param EntityManagerInterface $entityManager
+     * Constructor.
+     *
+     * @param RegistrationServiceInterface $registrationService
      */
-    public function __construct(UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager)
+    public function __construct(RegistrationServiceInterface $registrationService)
     {
-        $this->passwordHasher = $passwordHasher;
-        $this->entityManager = $entityManager;
+        $this->registrationService = $registrationService;
     }
 
     /**
+     * Register a new user.
+     *
      * @param Request $request
      * @return Response
      */
@@ -41,15 +41,8 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword(
-                $this->passwordHasher->hashPassword(
-                    $user,
-                    $form->get('password')->getData()
-                )
-            );
-
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
+            // Use the registration service to handle the registration process
+            $this->registrationService->register($user, $form->get('password')->getData());
 
             $this->addFlash('success', 'Registration successful! You can now log in.');
 

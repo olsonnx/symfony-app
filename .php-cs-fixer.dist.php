@@ -1,9 +1,10 @@
 <?php
 
 $finder = (new PhpCsFixer\Finder())
-    ->in(__DIR__)
-    ->exclude('var')
-;
+    ->in(__DIR__.'/src')
+    ->exclude('migrations')
+    ->exclude('var');
+
 
 return (new PhpCsFixer\Config())
     ->setRules([

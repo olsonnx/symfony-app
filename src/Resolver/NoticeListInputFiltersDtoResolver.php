@@ -6,7 +6,7 @@
 namespace App\Resolver;
 
 use App\Dto\NoticeListInputFiltersDto;
-use App\Entity\Enum\NoticeStatus;
+use App\Entity\NoticeStatus;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
@@ -34,7 +34,7 @@ class NoticeListInputFiltersDtoResolver implements ValueResolverInterface
 
         $categoryId = $request->query->get('categoryId');
         $tagId = $request->query->get('tagId');
-        $statusId = $request->query->get('statusId', NoticeStatus::STATUS_ACTIVE->value);
+        $statusId = $request->query->get('statusId', NoticeStatus::STATUS_ACTIVE);
 
         return [new NoticeListInputFiltersDto($categoryId, $tagId, $statusId)];
     }

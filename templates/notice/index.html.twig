@@ -38,8 +38,8 @@
                 <tr>
                     <td>{{ notice.id }}</td>
                     <td>{{ notice.title }}</td>
-                    <td>{{ notice.createdAt|date('Y/m/d') }}</td>
-                    <td>{{ notice.updatedAt|date('Y/m/d') }}</td>
+                    <td>{{ notice.createdAt|format_date('long') }}</td>
+                    <td>{{ notice.updatedAt|format_date('long') }}</td>
                     <td>
                         <a class="btn btn-outline-primary" href="{{ path('notice_index', {'categoryId' : notice.category.id}) }}" title="{{ notice.category.title }}">
                             {{ notice.category.title }}

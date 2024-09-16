@@ -414,7 +414,18 @@
         <source>validators.password_min_length</source>
         <target>Password must be at least 8 characters long.</target>
       </trans-unit>
-
+      <trans-unit id="label.none">
+        <source>label.none</source>
+        <target>None</target>
+      </trans-unit>
+      <trans-unit id="label.content_placeholder">
+        <source>label.content_placeholder</source>
+        <target>Enter content</target>
+      </trans-unit>
+      <trans-unit id="notification.success">
+        <source>notification.success</source>
+      <target>Operation finished successfully</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

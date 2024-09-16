@@ -5,6 +5,9 @@ namespace App\Service;
 use App\Entity\Tag;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
+/**
+ * Tag Service Interface
+ */
 interface TagServiceInterface
 {
     /**
@@ -48,6 +51,8 @@ interface TagServiceInterface
      * Get paginated list of tags.
      *
      * @param int $page
+     * @param string $sort
+     * @param string $direction
      * @return PaginationInterface
      */
     public function getPaginatedList(int $page, string $sort, string $direction): PaginationInterface;

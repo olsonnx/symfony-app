@@ -40,7 +40,7 @@ class Category
     #[ORM\Column(type: 'datetime_immutable')]
     #[Assert\Type(DateTimeImmutable::class)]
     #[Gedmo\Timestampable(on: 'create')]
-    private ?DateTimeImmutable $createdAt;
+    private ?DateTimeImmutable $createdAt = null;
 
     /**
      * Updated at.
@@ -50,7 +50,7 @@ class Category
     #[ORM\Column(type: 'datetime_immutable')]
     #[Assert\Type(DateTimeImmutable::class)]
     #[Gedmo\Timestampable(on: 'update')]
-    private ?DateTimeImmutable $updatedAt;
+    private ?DateTimeImmutable $updatedAt = null;
 
     /**
      * Title.
@@ -59,23 +59,42 @@ class Category
      */
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\Type('string')]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: 'title.not_blank')]
     #[Assert\Length(min: 3, max: 64)]
-    private ?string $title;
+    private ?string $title = null;
 
     /**
      * Slug.
+     *
      * @var string|null
      */
     #[ORM\Column(type: 'string', length: 64)]
     #[Assert\Type('string')]
     #[Assert\Length(min: 3, max: 64)]
     #[Gedmo\Slug(fields: ['title'])]
-    private ?string $slug;
+    private ?string $slug = null;
+
+    /**
+     * Notices associated with the category.
+     *
+     * @var Collection|Notice[]
+     */
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Notice::class, cascade: ['persist', 'remove'], orphanRemoval: true, fetch: 'EXTRA_LAZY')]
+    private Collection $notices;
+
+    /**
+     * Category constructor.
+     */
+    public function __construct()
+    {
+        $this->notices = new ArrayCollection();
+    }
 
     // Getter and setter for Id
 
     /**
+     * Get the ID.
+     *
      * @return int|null
      */
     public function getId(): ?int
@@ -86,6 +105,8 @@ class Category
     // Getter and setter for createdAt
 
     /**
+     * Get created at.
+     *
      * @return DateTimeImmutable|null
      */
     public function getCreatedAt(): ?DateTimeImmutable
@@ -94,6 +115,8 @@ class Category
     }
 
     /**
+     * Set created at.
+     *
      * @param DateTimeImmutable $createdAt
      * @return $this
      */
@@ -106,6 +129,8 @@ class Category
     // Getter and setter for updatedAt
 
     /**
+     * Get updated at.
+     *
      * @return DateTimeImmutable|null
      */
     public function getUpdatedAt(): ?DateTimeImmutable
@@ -114,6 +139,8 @@ class Category
     }
 
     /**
+     * Set updated at.
+     *
      * @param DateTimeImmutable $updatedAt
      * @return $this
      */
@@ -126,6 +153,8 @@ class Category
     // Getter and setter for title
 
     /**
+     * Get the title.
+     *
      * @return string|null
      */
     public function getTitle(): ?string
@@ -134,6 +163,8 @@ class Category
     }
 
     /**
+     * Set the title.
+     *
      * @param string $title
      * @return $this
      */
@@ -143,29 +174,37 @@ class Category
         return $this;
     }
 
+    // Setter for creation date
+
     /**
-     * Ustawia automatycznie datę utworzenia przed zapisem do bazy.
+     * Automatically set the created date before saving to the database.
      *
      * @ORM\PrePersist
      */
     public function setCreatedAtValue(): void
     {
         if ($this->createdAt === null) {
-            $this->createdAt = new DateTimeImmutable();  // Ustaw bieżącą datę i czas przy tworzeniu
+            $this->createdAt = new DateTimeImmutable();  // Set the current date and time when creating
         }
     }
 
+    // Setter for update date
+
     /**
-     * Ustawia automatycznie datę aktualizacji przed zapisem do bazy.
+     * Automatically set the updated date before saving to the database.
      *
      * @ORM\PreUpdate
      */
     public function setUpdatedAtValue(): void
     {
-        $this->updatedAt = new DateTimeImmutable();  // Ustaw bieżącą datę i czas przy każdej aktualizacji
+        $this->updatedAt = new DateTimeImmutable();  // Set the current date and time for each update
     }
 
+    // Getter and setter for slug
+
     /**
+     * Get the slug.
+     *
      * @return string|null
      */
     public function getSlug(): ?string
@@ -174,28 +213,22 @@ class Category
     }
 
     /**
+     * Set the slug.
+     *
      * @param string $slug
      * @return $this
      */
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
-
         return $this;
     }
 
-    /**
-     * @var Collection|Notice[]
-     */
-    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Notice::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
-    private Collection $notices;
-
-    public function __construct()
-    {
-        $this->notices = new ArrayCollection();
-    }
+    // Relation with notices
 
     /**
+     * Get all notices related to this category.
+     *
      * @return Collection
      */
     public function getNotices(): Collection
@@ -204,6 +237,8 @@ class Category
     }
 
     /**
+     * Add a notice to the category.
+     *
      * @param Notice $notice
      * @return $this
      */
@@ -211,20 +246,22 @@ class Category
     {
         if (!$this->notices->contains($notice)) {
             $this->notices->add($notice);
-            $notice->setCategory($this); // Ustawiamy relację zwrotną
+            $notice->setCategory($this);  // Set the reverse relationship
         }
 
         return $this;
     }
 
     /**
+     * Remove a notice from the category.
+     *
      * @param Notice $notice
      * @return $this
      */
     public function removeNotice(Notice $notice): static
     {
         if ($this->notices->removeElement($notice)) {
-            // Jeśli usuwamy ogłoszenie, resetujemy kategorię w Notice
+            // If we remove the notice, reset the category in Notice
             if ($notice->getCategory() === $this) {
                 $notice->setCategory(null);
             }

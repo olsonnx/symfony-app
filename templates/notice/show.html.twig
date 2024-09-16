@@ -6,8 +6,8 @@
     <h1>{{ notice.title }}</h1>
 
     <p><strong>{{ 'label.category'|trans }}:</strong> {{ notice.category ? notice.category.title : 'N/A' }}</p>
-    <p><strong>{{ 'label.createdAt'|trans }}:</strong> {{ notice.createdAt|date('Y-m-d H:i') }}</p>
-    <p><strong>{{ 'label.updatedAt'|trans }}:</strong> {{ notice.updatedAt|date('Y-m-d H:i') }}</p>
+    <p><strong>{{ 'label.createdAt'|trans }}:</strong> {{ notice.createdAt|format_datetime('long') }}</p>
+    <p><strong>{{ 'label.updatedAt'|trans }}:</strong> {{ notice.updatedAt|format_datetime('long') }}</p>
 
     {# Wyświetlanie tagów przypisanych do ogłoszenia #}
     <h2>{{ 'label.tags'|trans }}</h2>

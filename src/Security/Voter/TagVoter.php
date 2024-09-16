@@ -16,12 +16,23 @@ class TagVoter extends Voter
     private const VIEW = 'VIEW';
     private const DELETE = 'DELETE';
 
+    /**
+     * @param string $attribute
+     * @param mixed $subject
+     * @return bool
+     */
     protected function supports(string $attribute, mixed $subject): bool
     {
         return in_array($attribute, [self::EDIT, self::VIEW, self::DELETE])
             && $subject instanceof Tag;
     }
 
+    /**
+     * @param string $attribute
+     * @param mixed $subject
+     * @param TokenInterface $token
+     * @return bool
+     */
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
@@ -42,16 +53,31 @@ class TagVoter extends Voter
         };
     }
 
+    /**
+     * @param Tag $tag
+     * @param UserInterface $user
+     * @return bool
+     */
     private function canEdit(Tag $tag, UserInterface $user): bool
     {
         return $user->getRoles() === ['ROLE_ADMIN'];
     }
 
+    /**
+     * @param Tag $tag
+     * @param UserInterface $user
+     * @return bool
+     */
     private function canView(Tag $tag, UserInterface $user): bool
     {
-        return true; // Zakładamy, że tagi mogą być oglądane przez wszystkich
+        return true; // ZakĹ‚adamy, ĹĽe tagi mogÄ… byÄ‡ oglÄ…dane przez wszystkich
     }
 
+    /**
+     * @param Tag $tag
+     * @param UserInterface $user
+     * @return bool
+     */
     private function canDelete(Tag $tag, UserInterface $user): bool
     {
         return $user->getRoles() === ['ROLE_ADMIN'];

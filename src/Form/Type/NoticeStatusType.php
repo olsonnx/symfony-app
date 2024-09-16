@@ -2,20 +2,29 @@
 
 namespace App\Form\Type;
 
-use App\Entity\Enum\NoticeStatus;
+use App\Entity\NoticeStatus;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ *
+ */
 class NoticeStatusType extends AbstractType
 {
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     * @return void
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('status', ChoiceType::class, [
             'choices' => array_combine(
-                array_map(fn($status) => $status->name, NoticeStatus::cases()),
-                NoticeStatus::cases()
+            // Zamiast status->name, używamy po prostu wartości statusów
+                array_map(fn($status) => ucfirst($status), NoticeStatus::getAvailableStatuses()), // Etykiety statusów
+                NoticeStatus::getAvailableStatuses() // Wartości statusów
             ),
             'label' => 'Status',
             'expanded' => false,
@@ -23,10 +32,14 @@ class NoticeStatusType extends AbstractType
         ]);
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     * @return void
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => null, // Możemy tutaj ustawić, aby przekazywał tylko status
+            'data_class' => null, // Może być ustawione na 'null', jeśli przekazujemy tylko status
         ]);
     }
 }

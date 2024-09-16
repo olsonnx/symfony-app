@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use IntlDateFormatter;
 
 /**
  * Class CategoryController.
@@ -68,9 +69,29 @@ class CategoryController extends AbstractController
     {
         $categoryDetails = $this->categoryService->getCategoryWithNotices($category->getId());
 
+        // Tworzymy formatter daty zgodnie z bieżącym locale aplikacji
+        $locale = $this->translator->getLocale();  // Pobieramy aktualne locale
+        $formatter = new IntlDateFormatter(
+            $locale,
+            IntlDateFormatter::LONG,
+            IntlDateFormatter::NONE
+        );
+
+        // Formatowanie daty dla ogłoszeń w kategorii
+        $formattedNotices = array_map(function ($notice) use ($formatter) {
+            $createdAt = $notice->getCreatedAt();
+            $updatedAt = $notice->getUpdatedAt();
+
+            // Sprawdzamy, czy daty są ustawione, zanim spróbujemy je sformatować
+            $notice->createdAtFormatted = $createdAt ? $formatter->format($createdAt) : null;
+            $notice->updatedAtFormatted = $updatedAt ? $formatter->format($updatedAt) : null;
+
+            return $notice;
+        }, $categoryDetails['notices']);
+
         return $this->render('category/show.html.twig', [
             'category' => $categoryDetails['category'],
-            'notices' => $categoryDetails['notices'] ?? [],
+            'notices' => $formattedNotices,
         ]);
     }
 

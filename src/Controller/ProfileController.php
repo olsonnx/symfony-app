@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\Type\UserProfileType;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\ProfileServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +17,18 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 #[Route('/profile')]
 class ProfileController extends AbstractController
 {
+    private ProfileServiceInterface $profileService;
+
+    /**
+     * Constructor.
+     *
+     * @param ProfileServiceInterface $profileService
+     */
+    public function __construct(ProfileServiceInterface $profileService)
+    {
+        $this->profileService = $profileService;
+    }
+
     /**
      * Show profile action.
      *
@@ -25,7 +37,6 @@ class ProfileController extends AbstractController
     #[Route('/', name: 'profile', methods: ['GET'])]
     public function show(): Response
     {
-        // Get the current authenticated user
         $user = $this->getUser();
 
         if (!$user instanceof User) {
@@ -41,11 +52,10 @@ class ProfileController extends AbstractController
      * Edit profile action.
      *
      * @param Request $request
-     * @param EntityManagerInterface $entityManager
      * @return Response
      */
     #[Route('/edit', name: 'profile_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request): Response
     {
         $user = $this->getUser();
 
@@ -57,7 +67,7 @@ class ProfileController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $this->profileService->updateProfile($user);
             $this->addFlash('success', 'Profile updated successfully.');
 
             return $this->redirectToRoute('profile');

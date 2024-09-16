@@ -6,14 +6,13 @@
 namespace App\DataFixtures;
 
 use App\Entity\Category;
-use App\Entity\Enum\NoticeStatus;
-use App\Entity\Tag;
 use App\Entity\Notice;
+use App\Entity\NoticeStatus;
+use App\Entity\Tag;
 use App\Entity\User;
 use DateTimeImmutable;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Faker\Generator;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * Class NoticeFixtures.

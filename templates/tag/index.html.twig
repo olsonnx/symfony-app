@@ -7,7 +7,7 @@
 
     <!-- Przyciski do przechodzenia do listy ogłoszeń i kategorii -->
     <a href="{{ path('notice_index') }}" class="btn btn-secondary mb-3 mr-2">{{ 'action.view_notices'|trans }}</a>
-    <a href="{{ path('category_index') }}" class="btn btn-secondary mb-3">{{ 'action.view_categories'|trans }}</a>
+    <a href="{{ path('category_index') }}" class="btn btn-secondary mb-3 mr-2">{{ 'action.view_categories'|trans }}</a>
 
     <!-- Przycisk do tworzenia nowego tagu, widoczny tylko dla zalogowanych użytkowników z uprawnieniami -->
     {% if is_granted('ROLE_ADMIN') %}
@@ -30,14 +30,15 @@
                 <tr>
                     <td>{{ tag.id }}</td>
                     <td>{{ tag.title }}</td>
-                    <td>{{ tag.createdAt|date('Y-m-d H:i') }}</td>
-                    <td>{{ tag.updatedAt|date('Y-m-d H:i') }}</td>
+                    <td>{{ tag.createdAt|format_date('long') }}</td>
+                    <td>{{ tag.updatedAt|format_date('long') }}</td>
                     <td>
-                        {% if is_granted('EDIT', tag) %}
-                            <a href="{{ path('tag_edit', {'id': tag.id}) }}" class="btn btn-sm btn-primary">{{ 'action.edit'|trans }}</a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('tag_edit', {'id': tag.id}) }}" class="btn btn-outline-success">{{ 'action.edit'|trans }}</a>
                         {% endif %}
-                        {% if is_granted('DELETE', tag) %}
-                            <a href="{{ path('tag_delete', {'id': tag.id}) }}" class="btn btn-sm btn-danger">{{ 'action.delete'|trans }}</a>
+
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('tag_delete', {'id': tag.id}) }}" class="btn btn-outline-danger">{{ 'action.delete'|trans }}</a>
                         {% endif %}
                     </td>
                 </tr>
@@ -45,7 +46,7 @@
             </tbody>
         </table>
 
-        <div class="navigation">
+        <div class="navigation text-center">
             {{ knp_pagination_render(pagination) }}
         </div>
     {% else %}

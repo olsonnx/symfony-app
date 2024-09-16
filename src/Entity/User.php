@@ -5,7 +5,6 @@
 
 namespace App\Entity;
 
-use App\Entity\Enum\UserRole;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -36,8 +35,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string|null
      */
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    #[Assert\NotBlank]
-    #[Assert\Email]
+    #[Assert\NotBlank(message: 'email.not_blank')]
+    #[Assert\Email(message: 'email.invalid')]
     private ?string $email;
 
     /**
@@ -54,8 +53,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string|null
      */
     #[ORM\Column(type: 'string')]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: 'password.not_blank')]
     private ?string $password;
+
+    /**
+     * Constructor.
+     * Ensure that every user has the default role.
+     */
+    public function __construct()
+    {
+        $this->roles = [UserRole::ROLE_USER];
+    }
 
     /**
      * Getter for id.
@@ -119,8 +127,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = UserRole::ROLE_USER->value;
+        // Ensure every user has at least ROLE_USER
+        $roles[] = UserRole::ROLE_USER;
 
         return array_unique($roles);
     }
