@@ -23,6 +23,14 @@
         <source>validators.passwords_must_match</source>
         <target>Passwords must match.</target>
       </trans-unit>
+      <trans-unit id="title.not_blank">
+              <source>title.not_blank</source>
+              <target>Field cannot be empty.</target>
+            </trans-unit>
+      <trans-unit id="title.too_long">
+                    <source>title.too_long</source>
+                    <target>The text you've given is too long!</target>
+                  </trans-unit>
     </body>
   </file>
 </xliff>

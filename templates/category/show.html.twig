@@ -24,7 +24,7 @@
                 <tr>
                     <td>{{ notice.id }}</td>
                     <td>{{ notice.title }}</td>
-                    <td>{{ notice.createdAt|date('Y-m-d H:i') }}</td>
+                    <td>{{ notice.createdAt|format_date('long') }}</td>
                     <td>
                         <a href="{{ path('notice_show', {'id': notice.id}) }}">{{ 'action.show'|trans }}</a>
                     </td>

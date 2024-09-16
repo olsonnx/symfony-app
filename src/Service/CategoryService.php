@@ -8,6 +8,10 @@ namespace App\Service;
 use App\Entity\Category;
 use App\Repository\CategoryRepository;
 use App\Repository\NoticeRepository;
+use Doctrine\ORM\Exception\ORMException;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\OptimisticLockException;
 use Knp\Component\Pager\PaginatorInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,7 +19,7 @@ use Doctrine\ORM\EntityManagerInterface;
 /**
  * Class CategoryService.
  *
- * Serwis obsługujący logikę związaną z kategoriami.
+ * Serwis obsĹ‚ugujÄ…cy logikÄ™ zwiÄ…zanÄ… z kategoriami.
  */
 class CategoryService implements CategoryServiceInterface
 {
@@ -27,7 +31,7 @@ class CategoryService implements CategoryServiceInterface
     private const PAGINATOR_ITEMS_PER_PAGE = 10;
 
     /**
-     * @var EntityManagerInterface Entity Manager do zarządzania encjami
+     * @var EntityManagerInterface Entity Manager do zarzÄ…dzania encjami
      */
     private EntityManagerInterface $entityManager;
 
@@ -35,7 +39,7 @@ class CategoryService implements CategoryServiceInterface
      * Constructor.
      *
      * @param CategoryRepository     $categoryRepository  Repozytorium kategorii
-     * @param NoticeRepository       $noticeRepository    Repozytorium ogłoszeń
+     * @param NoticeRepository       $noticeRepository    Repozytorium ogĹ‚oszeĹ„
      * @param PaginatorInterface     $paginator           Paginator
      * @param EntityManagerInterface $entityManager       Manager encji Doctrine
      */
@@ -43,7 +47,7 @@ class CategoryService implements CategoryServiceInterface
         private readonly CategoryRepository $categoryRepository,
         private readonly NoticeRepository $noticeRepository,
         private readonly PaginatorInterface $paginator,
-        EntityManagerInterface $entityManager  // Wstrzyknięcie EntityManager
+        EntityManagerInterface $entityManager  // WstrzykniÄ™cie EntityManager
     ) {
         $this->entityManager = $entityManager;  // Przypisanie entity managera
     }
@@ -51,7 +55,7 @@ class CategoryService implements CategoryServiceInterface
     /**
      * Get paginated list of categories.
      *
-     * Pobiera paginowaną listę kategorii.
+     * Pobiera paginowanÄ… listÄ™ kategorii.
      *
      * @param int $page Numer strony
      *
@@ -69,11 +73,11 @@ class CategoryService implements CategoryServiceInterface
     /**
      * Get category with related notices.
      *
-     * Pobiera kategorię wraz z powiązanymi ogłoszeniami.
+     * Pobiera kategoriÄ™ wraz z powiÄ…zanymi ogĹ‚oszeniami.
      *
      * @param int $categoryId ID kategorii
      *
-     * @return array|null Zwraca tablicę z kategorią i jej ogłoszeniami lub null, jeśli nie znaleziono
+     * @return array|null Zwraca tablicÄ™ z kategoriÄ… i jej ogĹ‚oszeniami lub null, jeĹ›li nie znaleziono
      */
     public function getCategoryWithNotices(int $categoryId): ?array
     {
@@ -83,12 +87,12 @@ class CategoryService implements CategoryServiceInterface
             return null;
         }
 
-        // Nawet jeśli nie ma ogłoszeń, zwracamy pustą tablicę zamiast nulla
+        // Nawet jeĹ›li nie ma ogĹ‚oszeĹ„, zwracamy pustÄ… tablicÄ™ zamiast nulla
         $notices = $this->noticeRepository->findByCategory($category);
 
         return [
             'category' => $category,
-            'notices' => $notices ?? [] // Zabezpieczenie na wypadek braku ogłoszeń
+            'notices' => $notices ?? [] // Zabezpieczenie na wypadek braku ogĹ‚oszeĹ„
         ];
     }
 
@@ -96,6 +100,8 @@ class CategoryService implements CategoryServiceInterface
      * Save entity.
      *
      * @param Category $category Category entity
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function save(Category $category): void
     {
@@ -111,7 +117,7 @@ class CategoryService implements CategoryServiceInterface
      */
     public function delete(Category $category): void
     {
-        // Użyj EntityManager do usunięcia encji
+        // UĹĽyj EntityManager do usuniÄ™cia encji
         $this->entityManager->remove($category);
         $this->entityManager->flush();
     }

@@ -10,12 +10,20 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Change Password type
+ */
 class ChangePasswordType extends AbstractType
 {
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     * @return void
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            // Pole na bieżące hasło
+            // Pole na bieĹĽÄ…ce hasĹ‚o
             ->add('currentPassword', PasswordType::class, [
                 'label' => 'label.current_password',
                 'mapped' => false,
@@ -23,7 +31,7 @@ class ChangePasswordType extends AbstractType
                     new UserPassword(['message' => 'validators.invalid_current_password']),
                 ],
             ])
-            // Pole na nowe hasło, z dwukrotnym powtórzeniem dla walidacji
+            // Pole na nowe hasĹ‚o, z dwukrotnym powtĂłrzeniem dla walidacji
             ->add('newPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'first_options' => ['label' => 'label.new_password'],
@@ -40,11 +48,20 @@ class ChangePasswordType extends AbstractType
             ]);
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     * @return void
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        // Bez przypisania żadnej klasy encji
+        // Bez przypisania ĹĽadnej klasy encji
     }
 
+    /**
+     * block prefix getter
+     *
+     * @return string
+     */
     public function getBlockPrefix(): string
     {
         return 'change_password';

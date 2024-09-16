@@ -3,7 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\User;
-use App\Entity\Enum\UserRole;
+use App\Entity\UserRole;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -30,16 +30,20 @@ class UserFixtures extends Fixture
     {
         // Tworzenie użytkowników
         for ($i = 0; $i < 10; $i++) {
-            $user = new User();
-            $user->setEmail(sprintf('user%d@example.com', $i));
-            $user->setRoles([UserRole::ROLE_USER->value]);
-            $user->setPassword(
-                $this->passwordHasher->hashPassword($user, 'user1234')
-            );
+    $user = new User();
+    $user->setEmail(sprintf('user%d@example.com', $i));
 
-            $manager->persist($user);
-        }
+    
+    $user->setRoles([UserRole::ROLE_USER]);
 
+    
+    $user->setPassword(
+        $this->passwordHasher->hashPassword($user, 'user1234')
+    );
+
+    
+    $manager->persist($user);
+}
         // Tworzenie administratorów
         for ($i = 0; $i < 3; $i++) {
             $admin = new User();

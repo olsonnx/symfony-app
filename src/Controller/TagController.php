@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use IntlDateFormatter;
 
 /**
  * Class TagController.
@@ -47,6 +48,21 @@ class TagController extends AbstractController
 
         // Pobranie paginowanej listy tagów z obsługą sortowania
         $pagination = $this->tagService->getPaginatedList($page, $sort, $direction);
+
+        // Tworzenie formatera daty zgodnie z locale
+        $locale = $this->translator->getLocale();  // Pobieramy aktualne locale
+        $formatter = new IntlDateFormatter(
+            $locale,
+            IntlDateFormatter::LONG,
+            IntlDateFormatter::NONE
+        );
+
+        // Formatowanie dat utworzenia i aktualizacji dla tagów
+        foreach ($pagination->getItems() as $tag) {
+            // Używamy getterów do uzyskania dat utworzenia i aktualizacji
+            $tag->createdAtFormatted = $tag->getCreatedAt() ? $formatter->format($tag->getCreatedAt()) : null;
+            $tag->updatedAtFormatted = $tag->getUpdatedAt() ? $formatter->format($tag->getUpdatedAt()) : null;
+        }
 
         return $this->render('tag/index.html.twig', [
             'pagination' => $pagination,

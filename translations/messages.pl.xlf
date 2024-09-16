@@ -418,6 +418,18 @@
         <source>validators.password_min_length</source>
         <target>Hasło musi mieć co najmniej 8 znaków</target>
       </trans-unit>
+      <trans-unit id="label.none">
+        <source>label.none</source>
+        <target>Brak</target>
+      </trans-unit>
+      <trans-unit id="label.content_placeholder">
+        <source>label.content_placeholder</source>
+        <target>Wprowadź treść</target>
+      </trans-unit>
+      <trans-unit id="notification.success">
+        <source>notification.success</source>
+        <target>Operation finished successfully</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

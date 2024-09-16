@@ -84,8 +84,8 @@ class NoticeType extends AbstractType
                 'label' => 'label.content',
                 'required' => true,
                 'attr' => [
-                    'rows' => 5, // Można dostosować liczbę wierszy w polu tekstowym
-                    'placeholder' => 'Wprowadź treść ogłoszenia',
+                    'rows' => 5, // MoĹĽna dostosowaÄ‡ liczbÄ™ wierszy w polu tekstowym
+                    'placeholder' => 'label.content_placeholder',
                 ],
             ]
         );

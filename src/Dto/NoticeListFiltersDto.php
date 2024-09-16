@@ -2,8 +2,8 @@
 namespace App\Dto;
 
 use App\Entity\Category;
+use App\Entity\NoticeStatus;
 use App\Entity\Tag;
-use App\Entity\Enum\NoticeStatus;
 
 /**
  * Class NoticeListFiltersDto.

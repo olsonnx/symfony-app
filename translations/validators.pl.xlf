@@ -23,6 +23,14 @@
         <source>validators.passwords_must_match</source>
         <target>Hasła muszą być takie same.</target>
       </trans-unit>
+      <trans-unit id="title.not_blank">
+                    <source>title.not_blank</source>
+                    <target>Pole nie może być puste.</target>
+                  </trans-unit>
+            <trans-unit id="title.too_long">
+                          <source>title.too_long</source>
+                          <target>Wprowadzony tekst jest za długi!</target>
+                        </trans-unit>
     </body>
   </file>
 </xliff>

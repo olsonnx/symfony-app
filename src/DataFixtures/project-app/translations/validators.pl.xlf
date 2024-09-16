@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="pl" datatype="plaintext" original="validators.pl.xlf">
+    <body>
+      <!-- Validator: invalid current password -->
+      <trans-unit id="validators.invalid_current_password">
+        <source>validators.invalid_current_password</source>
+        <target>Nieprawidłowe obecne hasło</target>
+      </trans-unit>
+
+      <!-- Validator: password cannot be blank -->
+      <trans-unit id="validators.password_not_blank">
+        <source>validators.password_not_blank</source>
+        <target>Hasło nie może być puste</target>
+      </trans-unit>
+
+      <!-- Validator: password minimum length -->
+      <trans-unit id="validators.password_min_length">
+        <source>validators.password_min_length</source>
+        <target>Hasło musi mieć co najmniej 8 znaków</target>
+      </trans-unit>
+      <trans-unit id="validators.passwords_must_match">
+        <source>validators.passwords_must_match</source>
+        <target>Hasła muszą być takie same.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

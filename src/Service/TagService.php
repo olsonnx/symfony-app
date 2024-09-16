@@ -5,15 +5,26 @@ namespace App\Service;
 use App\Entity\Tag;
 use App\Repository\TagRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
 use Knp\Component\Pager\PaginatorInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
+/**
+ * Tag Service
+ */
 class TagService implements TagServiceInterface
 {
     private TagRepository $tagRepository;
     private EntityManagerInterface $entityManager;
     private PaginatorInterface $paginator;
 
+    /**
+     *  Constructor
+     *
+     * @param TagRepository $tagRepository
+     * @param EntityManagerInterface $entityManager
+     * @param PaginatorInterface $paginator
+     */
     public function __construct(TagRepository $tagRepository, EntityManagerInterface $entityManager, PaginatorInterface $paginator)
     {
         $this->tagRepository = $tagRepository;

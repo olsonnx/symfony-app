@@ -1,31 +1,26 @@
 <?php
-/**
- * Category repository.
- */
+
 namespace App\Repository;
 
 use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\ORM\EntityManager;
 
 /**
+ * Class CategoryRepository.
+ *
  * @method Category|null find($id, $lockMode = null, $lockVersion = null)
  * @method Category|null findOneBy(array $criteria, array $orderBy = null)
  * @method Category[]    findAll()
  * @method Category[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- *
- * @extends ServiceEntityRepository<Category>
  */
 class CategoryRepository extends ServiceEntityRepository
 {
     /**
      * Constructor.
      *
-     * @param ManagerRegistry $registry Manager registry
+     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -33,14 +28,15 @@ class CategoryRepository extends ServiceEntityRepository
     }
 
     /**
-     * Query all records.
+     * Query all categories with their associated notices.
      *
      * @return QueryBuilder Query builder
      */
-    public function queryAll(): QueryBuilder
+    public function queryAllWithNotices(): QueryBuilder
     {
         return $this->getOrCreateQueryBuilder()
-            ->select('partial category.{id, createdAt, updatedAt, title}')
+            ->select('category', 'partial notice.{id, title}')
+            ->leftJoin('category.notices', 'notice')  // Left join to get associated notices
             ->orderBy('category.updatedAt', 'DESC');
     }
 
@@ -48,7 +44,6 @@ class CategoryRepository extends ServiceEntityRepository
      * Get or create new query builder.
      *
      * @param QueryBuilder|null $queryBuilder Query builder
-     *
      * @return QueryBuilder Query builder
      */
     private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
@@ -59,25 +54,21 @@ class CategoryRepository extends ServiceEntityRepository
     /**
      * Save entity.
      *
-     * @param Category $category Category entity
+     * @param Category $category
      */
     public function save(Category $category): void
     {
-        assert($this->_em instanceof EntityManager);
         $this->_em->persist($category);
         $this->_em->flush();
     }
+
     /**
      * Delete entity.
      *
-     * @param Category $category Category entity
-     *
-     * @throws ORMException
-     * @throws OptimisticLockException
+     * @param Category $category
      */
     public function delete(Category $category): void
     {
-        assert($this->_em instanceof EntityManager);
         $this->_em->remove($category);
         $this->_em->flush();
     }

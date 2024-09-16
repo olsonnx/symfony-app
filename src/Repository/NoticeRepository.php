@@ -5,16 +5,15 @@
 
 namespace App\Repository;
 
-use App\Entity\Category;
-use App\Entity\User;
-use App\Entity\Tag;
-use App\Entity\Enum\NoticeStatus;
 use App\Dto\NoticeListFiltersDto;
+use App\Entity\Category;
 use App\Entity\Notice;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\DBAL\Types\Types;
 
 /**
  * Class NoticeRepository.
@@ -101,10 +100,9 @@ class NoticeRepository extends ServiceEntityRepository
                 ->setParameter('tag', $filters->getTag());
         }
 
-        // Dodaj filtr statusu tylko wtedy, gdy nie jest null
         if ($filters->getStatus() !== null) {
             $queryBuilder->andWhere('notice.status = :status')
-                ->setParameter('status', $filters->getStatus()->value);
+                ->setParameter('status', $filters->getStatus());
         }
 
         return $queryBuilder;
@@ -116,13 +114,15 @@ class NoticeRepository extends ServiceEntityRepository
      * @param Category $category Category
      *
      * @return int Number of notices in category
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      */
     public function countByCategory(Category $category): int
     {
         return $this->getOrCreateQueryBuilder()
             ->select('COUNT(notice.id)')
             ->where('notice.category = :category')
-            ->setParameter(':category', $category)
+            ->setParameter('category', $category)
             ->getQuery()
             ->getSingleScalarResult();
     }

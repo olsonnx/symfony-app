@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'profile.edit.title'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'profile.edit.heading'|trans }}</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-success">{{ 'action.save_changes'|trans }}</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('profile') }}" class="btn btn-secondary mt-3">{{ 'action.cancel'|trans }}</a>
+{% endblock %}
