@@ -14,8 +14,6 @@ class ProfileService implements ProfileServiceInterface
 
     /**
      * Constructor.
-     *
-     * @param EntityManagerInterface $entityManager
      */
     public function __construct(EntityManagerInterface $entityManager)
     {

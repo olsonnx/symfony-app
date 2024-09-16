@@ -10,7 +10,6 @@ use App\Entity\Notice;
 use App\Entity\NoticeStatus;
 use App\Entity\Tag;
 use App\Entity\User;
-use DateTimeImmutable;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Faker\Generator;
 
@@ -36,12 +35,12 @@ class NoticeFixtures extends AbstractBaseFixtures implements DependentFixtureInt
             $notice = new Notice();
             $notice->setTitle($this->faker->sentence);
             $notice->setCreatedAt(
-                DateTimeImmutable::createFromMutable(
+                \DateTimeImmutable::createFromMutable(
                     $this->faker->dateTimeBetween('-100 days', '-1 days')
                 )
             );
             $notice->setUpdatedAt(
-                DateTimeImmutable::createFromMutable(
+                \DateTimeImmutable::createFromMutable(
                     $this->faker->dateTimeBetween('-100 days', '-1 days')
                 )
             );

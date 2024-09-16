@@ -15,37 +15,34 @@ class UserFixtures extends Fixture
 {
     private UserPasswordHasherInterface $passwordHasher;
 
-    /**
-     * @param UserPasswordHasherInterface $passwordHasher
-     */
     public function __construct(UserPasswordHasherInterface $passwordHasher)
     {
         $this->passwordHasher = $passwordHasher;
     }
 
     /**
-     * Load data fixtures with the passed EntityManager
+     * Load data fixtures with the passed EntityManager.
      */
     public function load(ObjectManager $manager): void
     {
         // Tworzenie użytkowników
-        for ($i = 0; $i < 10; $i++) {
-    $user = new User();
-    $user->setEmail(sprintf('user%d@example.com', $i));
+        for ($i = 0; $i < 10; ++$i) {
+            $user = new User();
+            $user->setEmail(sprintf('user%d@example.com', $i));
 
-    
-    $user->setRoles([UserRole::ROLE_USER]);
 
-    
-    $user->setPassword(
-        $this->passwordHasher->hashPassword($user, 'user1234')
-    );
+            $user->setRoles([UserRole::ROLE_USER]);
 
-    
-    $manager->persist($user);
-}
+
+            $user->setPassword(
+                $this->passwordHasher->hashPassword($user, 'user1234')
+            );
+
+
+            $manager->persist($user);
+        }
         // Tworzenie administratorów
-        for ($i = 0; $i < 3; $i++) {
+        for ($i = 0; $i < 3; ++$i) {
             $admin = new User();
             $admin->setEmail(sprintf('admin%d@example.com', $i));
             $admin->setRoles([UserRole::ROLE_ADMIN->value]);

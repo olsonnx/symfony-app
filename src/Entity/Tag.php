@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -19,8 +18,6 @@ class Tag
 {
     /**
      * Primary key.
-     *
-     * @var int|null
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -29,8 +26,6 @@ class Tag
 
     /**
      * Title of the tag.
-     *
-     * @var string|null
      */
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'title.not_blank')]
@@ -39,26 +34,20 @@ class Tag
 
     /**
      * Created at timestamp.
-     *
-     * @var DateTimeImmutable|null
      */
     #[ORM\Column]
     #[Gedmo\Timestampable(on: 'create')]
-    private ?DateTimeImmutable $createdAt = null;
+    private ?\DateTimeImmutable $createdAt = null;
 
     /**
      * Updated at timestamp.
-     *
-     * @var DateTimeImmutable|null
      */
     #[ORM\Column]
     #[Gedmo\Timestampable(on: 'update')]
-    private ?DateTimeImmutable $updatedAt = null;
+    private ?\DateTimeImmutable $updatedAt = null;
 
     /**
      * Slug for SEO-friendly URLs.
-     *
-     * @var string|null
      */
     #[ORM\Column(length: 255)]
     #[Gedmo\Slug(fields: ['title'])]
@@ -84,8 +73,6 @@ class Tag
 
     /**
      * Get the ID of the tag.
-     *
-     * @return int|null
      */
     public function getId(): ?int
     {
@@ -94,8 +81,6 @@ class Tag
 
     /**
      * Get the title of the tag.
-     *
-     * @return string|null
      */
     public function getTitle(): ?string
     {
@@ -105,21 +90,19 @@ class Tag
     /**
      * Set the title of the tag.
      *
-     * @param string $title
      * @return $this
      */
     public function setTitle(string $title): static
     {
         $this->title = $title;
+
         return $this;
     }
 
     /**
      * Get the created at timestamp.
-     *
-     * @return DateTimeImmutable|null
      */
-    public function getCreatedAt(): ?DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
@@ -127,21 +110,19 @@ class Tag
     /**
      * Set the created at timestamp.
      *
-     * @param DateTimeImmutable $createdAt
      * @return $this
      */
-    public function setCreatedAt(DateTimeImmutable $createdAt): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
         return $this;
     }
 
     /**
      * Get the updated at timestamp.
-     *
-     * @return DateTimeImmutable|null
      */
-    public function getUpdatedAt(): ?DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
     }
@@ -149,19 +130,17 @@ class Tag
     /**
      * Set the updated at timestamp.
      *
-     * @param DateTimeImmutable $updatedAt
      * @return $this
      */
-    public function setUpdatedAt(DateTimeImmutable $updatedAt): static
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
+
         return $this;
     }
 
     /**
      * Get the slug for the tag.
-     *
-     * @return string|null
      */
     public function getSlug(): ?string
     {
@@ -171,12 +150,12 @@ class Tag
     /**
      * Set the slug for the tag.
      *
-     * @param string $slug
      * @return $this
      */
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
+
         return $this;
     }
 
@@ -193,7 +172,6 @@ class Tag
     /**
      * Add a notice to the tag.
      *
-     * @param Notice $notice
      * @return $this
      */
     public function addNotice(Notice $notice): static
@@ -209,7 +187,6 @@ class Tag
     /**
      * Remove a notice from the tag.
      *
-     * @param Notice $notice
      * @return $this
      */
     public function removeNotice(Notice $notice): static

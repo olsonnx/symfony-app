@@ -12,7 +12,6 @@ class SecurityService implements SecurityServiceInterface
     /**
      * Get login error and last username for login form.
      *
-     * @param AuthenticationUtils $authenticationUtils
      * @return array Contains 'last_username' and 'error'
      */
     public function getLoginData(AuthenticationUtils $authenticationUtils): array

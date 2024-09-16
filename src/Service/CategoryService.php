@@ -38,16 +38,16 @@ class CategoryService implements CategoryServiceInterface
     /**
      * Constructor.
      *
-     * @param CategoryRepository     $categoryRepository  Repozytorium kategorii
-     * @param NoticeRepository       $noticeRepository    Repozytorium ogĹ‚oszeĹ„
-     * @param PaginatorInterface     $paginator           Paginator
-     * @param EntityManagerInterface $entityManager       Manager encji Doctrine
+     * @param CategoryRepository     $categoryRepository Repozytorium kategorii
+     * @param NoticeRepository       $noticeRepository   Repozytorium ogĹ‚oszeĹ„
+     * @param PaginatorInterface     $paginator          Paginator
+     * @param EntityManagerInterface $entityManager      Manager encji Doctrine
      */
     public function __construct(
         private readonly CategoryRepository $categoryRepository,
         private readonly NoticeRepository $noticeRepository,
         private readonly PaginatorInterface $paginator,
-        EntityManagerInterface $entityManager  // WstrzykniÄ™cie EntityManager
+        EntityManagerInterface $entityManager,  // WstrzykniÄ™cie EntityManager
     ) {
         $this->entityManager = $entityManager;  // Przypisanie entity managera
     }
@@ -92,7 +92,7 @@ class CategoryService implements CategoryServiceInterface
 
         return [
             'category' => $category,
-            'notices' => $notices ?? [] // Zabezpieczenie na wypadek braku ogĹ‚oszeĹ„
+            'notices' => $notices ?? [], // Zabezpieczenie na wypadek braku ogĹ‚oszeĹ„
         ];
     }
 
@@ -100,6 +100,7 @@ class CategoryService implements CategoryServiceInterface
      * Save entity.
      *
      * @param Category $category Category entity
+     *
      * @throws ORMException
      * @throws OptimisticLockException
      */
@@ -108,12 +109,11 @@ class CategoryService implements CategoryServiceInterface
 
         $this->categoryRepository->save($category);
     }
+
     /**
      * Delete a category.
      *
      * @param Category $category Encja kategorii
-     *
-     * @return void
      */
     public function delete(Category $category): void
     {

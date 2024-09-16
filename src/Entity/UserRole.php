@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 /**
- * User Role
+ * User Role.
  */
 class UserRole
 {
@@ -12,8 +12,6 @@ class UserRole
 
     /**
      * Get all possible role values.
-     *
-     * @return array
      */
     public static function getAvailableRoles(): array
     {
@@ -26,7 +24,6 @@ class UserRole
     /**
      * Get the role label.
      *
-     * @param string $role
      * @return string Role label
      */
     public static function label(string $role): string

@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Service\SecurityServiceInterface;
-use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,8 +17,6 @@ class SecurityController extends AbstractController
 
     /**
      * Constructor.
-     *
-     * @param SecurityServiceInterface $securityService
      */
     public function __construct(SecurityServiceInterface $securityService)
     {
@@ -28,9 +25,6 @@ class SecurityController extends AbstractController
 
     /**
      * Login action.
-     *
-     * @param AuthenticationUtils $authenticationUtils
-     * @return Response
      */
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
@@ -39,18 +33,16 @@ class SecurityController extends AbstractController
 
         return $this->render('security/login.html.twig', [
             'last_username' => $loginData['last_username'],
-            'error' => $loginData['error']
+            'error' => $loginData['error'],
         ]);
     }
 
     /**
      * Logout action.
-     *
-     * @return void
      */
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
     {
-        throw new LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 }

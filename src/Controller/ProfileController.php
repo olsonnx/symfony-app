@@ -21,8 +21,6 @@ class ProfileController extends AbstractController
 
     /**
      * Constructor.
-     *
-     * @param ProfileServiceInterface $profileService
      */
     public function __construct(ProfileServiceInterface $profileService)
     {
@@ -31,8 +29,6 @@ class ProfileController extends AbstractController
 
     /**
      * Show profile action.
-     *
-     * @return Response
      */
     #[Route('/', name: 'profile', methods: ['GET'])]
     public function show(): Response
@@ -50,9 +46,6 @@ class ProfileController extends AbstractController
 
     /**
      * Edit profile action.
-     *
-     * @param Request $request
-     * @return Response
      */
     #[Route('/edit', name: 'profile_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request): Response

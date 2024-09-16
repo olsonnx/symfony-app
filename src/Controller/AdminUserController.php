@@ -30,7 +30,7 @@ class AdminUserController extends AbstractController
      * Initializes the EntityManager and Translator for use in all methods.
      *
      * @param EntityManagerInterface $entityManager Entity manager for database interactions
-     * @param TranslatorInterface $translator Translator for handling translations
+     * @param TranslatorInterface    $translator    Translator for handling translations
      */
     public function __construct(EntityManagerInterface $entityManager, TranslatorInterface $translator)
     {
@@ -44,6 +44,7 @@ class AdminUserController extends AbstractController
      * Fetches and displays all users from the database in the admin user listing page.
      *
      * @param UserRepository $userRepository Repository for querying user data
+     *
      * @return Response HTTP response containing the user list view
      */
     #[Route('/', name: 'admin_user_index', methods: ['GET'])]
@@ -63,6 +64,7 @@ class AdminUserController extends AbstractController
      * After successful form submission and validation, the user is saved in the database.
      *
      * @param Request $request The HTTP request containing form data
+     *
      * @return Response HTTP response containing the user creation form or redirection after creation
      */
     #[Route('/new', name: 'admin_user_create', methods: ['GET', 'POST'])]
@@ -96,7 +98,8 @@ class AdminUserController extends AbstractController
      * and validation, the user is updated in the database.
      *
      * @param Request $request The HTTP request containing form data
-     * @param User $user The user entity to be edited
+     * @param User    $user    The user entity to be edited
+     *
      * @return Response HTTP response containing the user edit form or redirection after update
      */
     #[Route('/{id}/edit', name: 'admin_user_edit', methods: ['GET', 'POST'])]
@@ -128,7 +131,8 @@ class AdminUserController extends AbstractController
      * a success message is shown.
      *
      * @param Request $request The HTTP request containing CSRF token
-     * @param User $user The user entity to be deleted
+     * @param User    $user    The user entity to be deleted
+     *
      * @return Response HTTP response redirecting to the user list after deletion
      */
     #[Route('/{id}/delete', name: 'admin_user_delete', methods: ['POST'])]

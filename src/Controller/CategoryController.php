@@ -12,7 +12,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use IntlDateFormatter;
 
 /**
  * Class CategoryController.
@@ -27,7 +26,7 @@ class CategoryController extends AbstractController
      * Constructor.
      *
      * @param CategoryServiceInterface $categoryService Category service
-     * @param TranslatorInterface $translator Translator
+     * @param TranslatorInterface      $translator      Translator
      */
     public function __construct(CategoryServiceInterface $categoryService, TranslatorInterface $translator)
     {
@@ -39,8 +38,6 @@ class CategoryController extends AbstractController
      * Index action.
      *
      * @param Request $request HTTP request
-     *
-     * @return Response
      */
     #[Route(name: 'category_index', methods: ['GET'])]
     public function index(Request $request): Response
@@ -58,10 +55,6 @@ class CategoryController extends AbstractController
 
     /**
      * Show action.
-     *
-     * @param Category $category
-     *
-     * @return Response
      */
     #[Route('/{id}', name: 'category_show', requirements: ['id' => '\d+'], methods: ['GET'])]
     #[IsGranted('VIEW', subject: 'category')]
@@ -71,10 +64,10 @@ class CategoryController extends AbstractController
 
         // Tworzymy formatter daty zgodnie z bieżącym locale aplikacji
         $locale = $this->translator->getLocale();  // Pobieramy aktualne locale
-        $formatter = new IntlDateFormatter(
+        $formatter = new \IntlDateFormatter(
             $locale,
-            IntlDateFormatter::LONG,
-            IntlDateFormatter::NONE
+            \IntlDateFormatter::LONG,
+            \IntlDateFormatter::NONE
         );
 
         // Formatowanie daty dla ogłoszeń w kategorii
@@ -97,10 +90,6 @@ class CategoryController extends AbstractController
 
     /**
      * Create action.
-     *
-     * @param Request $request
-     *
-     * @return Response
      */
     #[Route('/create', name: 'category_create', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]
@@ -124,11 +113,6 @@ class CategoryController extends AbstractController
 
     /**
      * Edit action.
-     *
-     * @param Request $request
-     * @param Category $category
-     *
-     * @return Response
      */
     #[Route('/{id}/edit', name: 'category_edit', requirements: ['id' => '[1-9]\d*'], methods: ['GET', 'PUT'])]
     #[IsGranted('EDIT', subject: 'category')]
@@ -165,7 +149,7 @@ class CategoryController extends AbstractController
     #[IsGranted('DELETE', subject: 'category')]
     public function delete(Request $request, Category $category): Response
     {
-        if(!$this->categoryService->canBeDeleted($category)) {
+        if (!$this->categoryService->canBeDeleted($category)) {
             $this->addFlash(
                 'warning',
                 $this->translator->trans('message.category_contains_tasks')

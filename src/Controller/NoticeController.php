@@ -14,8 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use IntlDateFormatter;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class NoticeController.
@@ -68,7 +66,7 @@ class NoticeController extends AbstractController
      * Show action.
      *
      * @param Request $request HTTP request
-     * @param Notice $notice
+     *
      * @return Response HTTP response
      */
     #[Route('/{id}', name: 'notice_show', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
@@ -83,15 +81,16 @@ class NoticeController extends AbstractController
             $notice->setStatus($newStatus);
             $this->noticeService->save($notice);
             $this->addFlash('success', 'notification.success');
+
             return $this->redirectToRoute('notice_show', ['id' => $notice->getId()]);
         }
 
         // Formatowanie dat zgodnie z locale
         $locale = $this->translator->getLocale();
-        $dateFormatter = new IntlDateFormatter(
+        $dateFormatter = new \IntlDateFormatter(
             $locale,
-            IntlDateFormatter::LONG,    // Typ formatu daty
-            IntlDateFormatter::NONE     // Typ formatu czasu
+            \IntlDateFormatter::LONG,    // Typ formatu daty
+            \IntlDateFormatter::NONE     // Typ formatu czasu
         );
 
         $formattedCreatedDate = $dateFormatter->format($notice->getCreatedAt());

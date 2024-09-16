@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Service;
 
 use App\Entity\User;
@@ -17,9 +18,6 @@ class UserService
 
     /**
      * Constructor.
-     *
-     * @param UserRepository $userRepository
-     * @param EntityManagerInterface $entityManager
      */
     public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager)
     {
@@ -39,8 +37,6 @@ class UserService
 
     /**
      * Save a user entity.
-     *
-     * @param User $user
      */
     public function saveUser(User $user): void
     {
@@ -50,8 +46,6 @@ class UserService
 
     /**
      * Delete a user entity.
-     *
-     * @param User $user
      */
     public function deleteUser(User $user): void
     {

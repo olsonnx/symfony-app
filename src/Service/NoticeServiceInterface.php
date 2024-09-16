@@ -19,13 +19,14 @@ interface NoticeServiceInterface
     /**
      * Get paginated list of notices.
      *
-     * @param int                     $page    Page number
-     * @param User|null               $author  Notices author (optional)
+     * @param int                       $page    Page number
+     * @param User|null                 $author  Notices author (optional)
      * @param NoticeListInputFiltersDto $filters Filters
      *
      * @return PaginationInterface Paginated list
      */
     public function getPaginatedList(int $page, ?User $author, NoticeListInputFiltersDto $filters): PaginationInterface;
+
     /**
      * Get a single notice by ID.
      *

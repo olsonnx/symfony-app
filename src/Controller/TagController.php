@@ -12,7 +12,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use IntlDateFormatter;
 
 /**
  * Class TagController.
@@ -23,10 +22,6 @@ class TagController extends AbstractController
     private TagServiceInterface $tagService;
     private TranslatorInterface $translator;
 
-    /**
-     * @param TagServiceInterface $tagService
-     * @param TranslatorInterface $translator
-     */
     public function __construct(TagServiceInterface $tagService, TranslatorInterface $translator)
     {
         $this->tagService = $tagService;
@@ -35,9 +30,6 @@ class TagController extends AbstractController
 
     /**
      * Index action.
-     *
-     * @param Request $request
-     * @return Response
      */
     #[Route(name: 'tag_index', methods: ['GET'])]
     public function index(Request $request): Response
@@ -51,10 +43,10 @@ class TagController extends AbstractController
 
         // Tworzenie formatera daty zgodnie z locale
         $locale = $this->translator->getLocale();  // Pobieramy aktualne locale
-        $formatter = new IntlDateFormatter(
+        $formatter = new \IntlDateFormatter(
             $locale,
-            IntlDateFormatter::LONG,
-            IntlDateFormatter::NONE
+            \IntlDateFormatter::LONG,
+            \IntlDateFormatter::NONE
         );
 
         // Formatowanie dat utworzenia i aktualizacji dla tagów
@@ -71,9 +63,6 @@ class TagController extends AbstractController
 
     /**
      * Create action.
-     *
-     * @param Request $request
-     * @return Response
      */
     #[Route('/create', name: 'tag_create', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]
@@ -97,10 +86,6 @@ class TagController extends AbstractController
 
     /**
      * Edit action.
-     *
-     * @param Request $request
-     * @param Tag $tag
-     * @return Response
      */
     #[Route('/{id}/edit', name: 'tag_edit', methods: ['GET', 'PUT'])]
     #[IsGranted('EDIT', subject: 'tag')]
@@ -127,10 +112,6 @@ class TagController extends AbstractController
 
     /**
      * Delete action.
-     *
-     * @param Request $request
-     * @param Tag $tag
-     * @return Response
      */
     #[Route('/{id}/delete', name: 'tag_delete', methods: ['GET', 'DELETE'])]
     #[IsGranted('DELETE', subject: 'tag')]

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Dto;
 
 use App\Entity\Category;
@@ -16,10 +17,6 @@ class NoticeListFiltersDto
 
     /**
      * Constructor.
-     *
-     * @param Category|null     $category
-     * @param Tag|null          $tag
-     * @param NoticeStatus|null $status
      */
     public function __construct(?Category $category, ?Tag $tag, ?NoticeStatus $status)
     {
@@ -30,8 +27,6 @@ class NoticeListFiltersDto
 
     /**
      * Get category.
-     *
-     * @return Category|null
      */
     public function getCategory(): ?Category
     {
@@ -40,8 +35,6 @@ class NoticeListFiltersDto
 
     /**
      * Get tag.
-     *
-     * @return Tag|null
      */
     public function getTag(): ?Tag
     {
@@ -50,8 +43,6 @@ class NoticeListFiltersDto
 
     /**
      * Get status.
-     *
-     * @return NoticeStatus|null
      */
     public function getStatus(): ?NoticeStatus
     {

@@ -62,10 +62,8 @@ class NoticeRepository extends ServiceEntityRepository
     /**
      * Query notices by author with filters.
      *
-     * @param User|null $author Author of the notices
+     * @param User|null            $author  Author of the notices
      * @param NoticeListFiltersDto $filters Filters for the query
-     *
-     * @return QueryBuilder
      */
     public function queryByAuthor(?User $author, NoticeListFiltersDto $filters): QueryBuilder
     {
@@ -82,8 +80,8 @@ class NoticeRepository extends ServiceEntityRepository
     /**
      * Apply filters to paginated list.
      *
-     * @param QueryBuilder $queryBuilder Query builder
-     * @param NoticeListFiltersDto $filters Filters
+     * @param QueryBuilder         $queryBuilder Query builder
+     * @param NoticeListFiltersDto $filters      Filters
      *
      * @return QueryBuilder Query builder
      */
@@ -100,7 +98,7 @@ class NoticeRepository extends ServiceEntityRepository
                 ->setParameter('tag', $filters->getTag());
         }
 
-        if ($filters->getStatus() !== null) {
+        if (null !== $filters->getStatus()) {
             $queryBuilder->andWhere('notice.status = :status')
                 ->setParameter('status', $filters->getStatus());
         }
@@ -114,6 +112,7 @@ class NoticeRepository extends ServiceEntityRepository
      * @param Category $category Category
      *
      * @return int Number of notices in category
+     *
      * @throws NoResultException
      * @throws NonUniqueResultException
      */
@@ -156,7 +155,7 @@ class NoticeRepository extends ServiceEntityRepository
      *
      * @return QueryBuilder Query builder
      */
-    private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
+    private function getOrCreateQueryBuilder(?QueryBuilder $queryBuilder = null): QueryBuilder
     {
         return $queryBuilder ?? $this->createQueryBuilder('notice');
     }
