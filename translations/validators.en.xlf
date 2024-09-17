@@ -31,6 +31,34 @@
                     <source>title.too_long</source>
                     <target>The text you've given is too long!</target>
                   </trans-unit>
+      <trans-unit id="content.not_blank">
+              <source>content.not_blank</source>
+              <target>Content cannot be blank</target>
+            </trans-unit>
+            <trans-unit id="content.too_long">
+              <source>content.too_long</source>
+              <target>Content is too long</target>
+            </trans-unit>
+            <trans-unit id="slug.not_blank">
+              <source>slug.not_blank</source>
+              <target>Slug cannot be blank</target>
+            </trans-unit>
+            <trans-unit id="slug.too_long">
+              <source>slug.too_long</source>
+              <target>Slug is too long</target>
+            </trans-unit>
+            <trans-unit id="email.not_blank">
+              <source>email.not_blank</source>
+              <target>Email cannot be blank</target>
+            </trans-unit>
+            <trans-unit id="email.invalid">
+              <source>email.invalid</source>
+              <target>Invalid email address</target>
+            </trans-unit>
+            <trans-unit id="password.not_blank">
+              <source>password.not_blank</source>
+              <target>Password cannot be blank</target>
+            </trans-unit>
     </body>
   </file>
 </xliff>

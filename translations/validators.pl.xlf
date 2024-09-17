@@ -31,6 +31,34 @@
                           <source>title.too_long</source>
                           <target>Wprowadzony tekst jest za długi!</target>
                         </trans-unit>
+<trans-unit id="content.not_blank">
+        <source>content.not_blank</source>
+        <target>Treść nie może być pusta</target>
+      </trans-unit>
+      <trans-unit id="content.too_long">
+        <source>content.too_long</source>
+        <target>Treść jest zbyt długa</target>
+      </trans-unit>
+      <trans-unit id="slug.not_blank">
+        <source>slug.not_blank</source>
+        <target>Slug nie może być pusty</target>
+      </trans-unit>
+      <trans-unit id="slug.too_long">
+        <source>slug.too_long</source>
+        <target>Slug jest zbyt długi</target>
+      </trans-unit>
+      <trans-unit id="email.not_blank">
+        <source>email.not_blank</source>
+        <target>Email nie może być pusty</target>
+      </trans-unit>
+      <trans-unit id="email.invalid">
+        <source>email.invalid</source>
+        <target>Email jest nieprawidłowy</target>
+      </trans-unit>
+      <trans-unit id="password.not_blank">
+        <source>password.not_blank</source>
+        <target>Hasło nie może być puste</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
