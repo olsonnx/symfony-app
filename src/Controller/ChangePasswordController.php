@@ -8,6 +8,7 @@
 namespace App\Controller;
 
 use App\Service\ChangePasswordServiceInterface;
+use App\Form\Type\ChangePasswordType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

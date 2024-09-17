@@ -32,6 +32,11 @@ class CategoryService implements CategoryServiceInterface
      */
     private const PAGINATOR_ITEMS_PER_PAGE = 10;
 
+    private CategoryRepository $categoryRepository;
+    private NoticeRepository $noticeRepository;
+    private PaginatorInterface $paginator;
+    private EntityManagerInterface $entityManager;
+
     /**
      * Constructor.
      *
@@ -40,8 +45,16 @@ class CategoryService implements CategoryServiceInterface
      * @param PaginatorInterface     $paginator          Paginator
      * @param EntityManagerInterface $entityManager      Manager encji Doctrine
      */
-    public function __construct(private readonly CategoryRepository $categoryRepository, private readonly NoticeRepository $noticeRepository, private readonly PaginatorInterface $paginator, private readonly EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        CategoryRepository $categoryRepository,
+        NoticeRepository $noticeRepository,
+        PaginatorInterface $paginator,
+        EntityManagerInterface $entityManager
+    ) {
+        $this->categoryRepository = $categoryRepository;
+        $this->noticeRepository = $noticeRepository;
+        $this->paginator = $paginator;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -56,7 +69,7 @@ class CategoryService implements CategoryServiceInterface
     public function getPaginatedList(int $page): PaginationInterface
     {
         return $this->paginator->paginate(
-            $this->categoryRepository->queryAll(),
+            $this->categoryRepository->queryAll(), // Wywołanie queryAll z repozytorium
             $page,
             self::PAGINATOR_ITEMS_PER_PAGE
         );
