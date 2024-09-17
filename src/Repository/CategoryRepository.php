@@ -55,6 +55,17 @@ class CategoryRepository extends ServiceEntityRepository
     }
 
     /**
+     * Query all categories.
+     *
+     * @return QueryBuilder Query builder
+     */
+    public function queryAll(): QueryBuilder
+    {
+        return $this->createQueryBuilder('category')
+            ->orderBy('category.updatedAt', 'DESC'); // Możesz dostosować sortowanie według potrzeb
+    }
+
+    /**
      * Query all categories with their associated notices.
      *
      * @return QueryBuilder Query builder
