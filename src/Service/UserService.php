@@ -1,4 +1,9 @@
 <?php
+/**
+ * Notice management app
+ *
+ * contact me at aleksander.ruszkowski@student.uj.edu.pl
+ */
 
 namespace App\Service;
 
@@ -18,6 +23,9 @@ class UserService
 
     /**
      * Constructor.
+     *
+     * @param UserRepository         $userRepository The user repository
+     * @param EntityManagerInterface $entityManager  The entity manager
      */
     public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager)
     {
@@ -37,6 +45,8 @@ class UserService
 
     /**
      * Save a user entity.
+     *
+     * @param User $user The user entity to save
      */
     public function saveUser(User $user): void
     {
@@ -46,6 +56,8 @@ class UserService
 
     /**
      * Delete a user entity.
+     *
+     * @param User $user The user entity to delete
      */
     public function deleteUser(User $user): void
     {

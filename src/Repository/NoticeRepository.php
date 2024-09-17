@@ -1,6 +1,8 @@
 <?php
 /**
- * Notice repository.
+ * Notice management app
+ *
+ * contact me at aleksander.ruszkowski@student.uj.edu.pl
  */
 
 namespace App\Repository;
@@ -64,6 +66,8 @@ class NoticeRepository extends ServiceEntityRepository
      *
      * @param User|null            $author  Author of the notices
      * @param NoticeListFiltersDto $filters Filters for the query
+     *
+     * @return QueryBuilder Query builder
      */
     public function queryByAuthor(?User $author, NoticeListFiltersDto $filters): QueryBuilder
     {
@@ -72,35 +76,6 @@ class NoticeRepository extends ServiceEntityRepository
         if ($author) {
             $queryBuilder->andWhere('notice.author = :author')
                 ->setParameter('author', $author);
-        }
-
-        return $queryBuilder;
-    }
-
-    /**
-     * Apply filters to paginated list.
-     *
-     * @param QueryBuilder         $queryBuilder Query builder
-     * @param NoticeListFiltersDto $filters      Filters
-     *
-     * @return QueryBuilder Query builder
-     */
-    private function applyFiltersToList(QueryBuilder $queryBuilder, NoticeListFiltersDto $filters): QueryBuilder
-    {
-        if ($filters->getCategory()) {
-            $queryBuilder->andWhere('notice.category = :category')
-                ->setParameter('category', $filters->getCategory());
-        }
-
-        if ($filters->getTag()) {
-            $queryBuilder->join('notice.tags', 'tag')
-                ->andWhere('tag = :tag')
-                ->setParameter('tag', $filters->getTag());
-        }
-
-        if (null !== $filters->getStatus()) {
-            $queryBuilder->andWhere('notice.status = :status')
-                ->setParameter('status', $filters->getStatus());
         }
 
         return $queryBuilder;
@@ -130,6 +105,8 @@ class NoticeRepository extends ServiceEntityRepository
      * Save entity.
      *
      * @param Notice $notice Notice entity
+     *
+     * @return void
      */
     public function save(Notice $notice): void
     {
@@ -141,6 +118,8 @@ class NoticeRepository extends ServiceEntityRepository
      * Delete entity.
      *
      * @param Notice $notice Notice entity
+     *
+     * @return void
      */
     public function delete(Notice $notice): void
     {
@@ -158,5 +137,34 @@ class NoticeRepository extends ServiceEntityRepository
     private function getOrCreateQueryBuilder(?QueryBuilder $queryBuilder = null): QueryBuilder
     {
         return $queryBuilder ?? $this->createQueryBuilder('notice');
+    }
+
+    /**
+     * Apply filters to paginated list.
+     *
+     * @param QueryBuilder         $queryBuilder Query builder
+     * @param NoticeListFiltersDto $filters      Filters
+     *
+     * @return QueryBuilder Query builder
+     */
+    private function applyFiltersToList(QueryBuilder $queryBuilder, NoticeListFiltersDto $filters): QueryBuilder
+    {
+        if ($filters->getCategory()) {
+            $queryBuilder->andWhere('notice.category = :category')
+                ->setParameter('category', $filters->getCategory());
+        }
+
+        if ($filters->getTag()) {
+            $queryBuilder->join('notice.tags', 'tag')
+                ->andWhere('tag = :tag')
+                ->setParameter('tag', $filters->getTag());
+        }
+
+        if (null !== $filters->getStatus()) {
+            $queryBuilder->andWhere('notice.status = :status')
+                ->setParameter('status', $filters->getStatus());
+        }
+
+        return $queryBuilder;
     }
 }

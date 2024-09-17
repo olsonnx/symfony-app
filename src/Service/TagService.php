@@ -1,4 +1,9 @@
 <?php
+/**
+ * Notice management app
+ *
+ * contact me at aleksander.ruszkowski@student.uj.edu.pl
+ */
 
 namespace App\Service;
 
@@ -20,6 +25,10 @@ class TagService implements TagServiceInterface
 
     /**
      *  Constructor.
+     *
+     * @param TagRepository          $tagRepository Tag repository
+     * @param EntityManagerInterface $entityManager Entity manager
+     * @param PaginatorInterface     $paginator     Paginator
      */
     public function __construct(TagRepository $tagRepository, EntityManagerInterface $entityManager, PaginatorInterface $paginator)
     {
@@ -30,6 +39,10 @@ class TagService implements TagServiceInterface
 
     /**
      * Find or create a tag by title.
+     *
+     * @param string $title Tag title
+     *
+     * @return Tag Tag entity
      */
     public function findOrCreate(string $title): Tag
     {
@@ -47,6 +60,8 @@ class TagService implements TagServiceInterface
 
     /**
      * Get all tags.
+     *
+     * @return array List of all tags
      */
     public function findAll(): array
     {
@@ -54,7 +69,11 @@ class TagService implements TagServiceInterface
     }
 
     /**
-     * Find or create a tag by title.
+     * Find a tag by title.
+     *
+     * @param string $title Tag title
+     *
+     * @return Tag|null Tag entity or null
      */
     public function findOneByTitle(string $title): ?Tag
     {
@@ -63,6 +82,8 @@ class TagService implements TagServiceInterface
 
     /**
      * Save a tag entity.
+     *
+     * @param Tag $tag Tag entity
      */
     public function save(Tag $tag): void
     {
@@ -72,6 +93,8 @@ class TagService implements TagServiceInterface
 
     /**
      * Delete a tag entity.
+     *
+     * @param Tag $tag Tag entity
      */
     public function delete(Tag $tag): void
     {
@@ -81,6 +104,12 @@ class TagService implements TagServiceInterface
 
     /**
      * Get paginated list of tags with sorting.
+     *
+     * @param int    $page      Page number
+     * @param string $sort      Sort field
+     * @param string $direction Sort direction
+     *
+     * @return PaginationInterface Paginated list of tags
      */
     public function getPaginatedList(int $page, string $sort, string $direction): PaginationInterface
     {
@@ -95,7 +124,7 @@ class TagService implements TagServiceInterface
      *
      * @param int $id Tag id
      *
-     * @return Tag|null Tag entity
+     * @return Tag|null Tag entity or null
      *
      * @throws NonUniqueResultException
      */

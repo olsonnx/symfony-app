@@ -1,6 +1,8 @@
 <?php
 /**
- * Tags data transformer.
+ * Notice management app
+ *
+ * contact me at aleksander.ruszkowski@student.uj.edu.pl
  */
 
 namespace App\Form\DataTransformer;

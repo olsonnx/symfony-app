@@ -1,6 +1,8 @@
 <?php
 /**
- * User entity.
+ * Notice management app
+ *
+ * contact me at aleksander.ruszkowski@student.uj.edu.pl
  */
 
 namespace App\Entity;
@@ -164,6 +166,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
      *
      * @see UserInterface
+     *
+     * @return string|null
      */
     public function getSalt(): ?string
     {
@@ -174,6 +178,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * Removes sensitive information from the token.
      *
      * @see UserInterface
+     *
+     * @return void
      */
     public function eraseCredentials(): void
     {

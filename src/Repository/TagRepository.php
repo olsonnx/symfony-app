@@ -1,4 +1,9 @@
 <?php
+/**
+ * Notice management app
+ *
+ * contact me at aleksander.ruszkowski@student.uj.edu.pl
+ */
 
 namespace App\Repository;
 
@@ -19,6 +24,8 @@ class TagRepository extends ServiceEntityRepository
 {
     /**
      * Constructor.
+     *
+     * @param ManagerRegistry $registry Manager registry
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -39,21 +46,11 @@ class TagRepository extends ServiceEntityRepository
     }
 
     /**
-     * Get or create new query builder.
-     *
-     * @param QueryBuilder|null $queryBuilder Query builder
-     *
-     * @return QueryBuilder Query builder
-     */
-    private function getOrCreateQueryBuilder(?QueryBuilder $queryBuilder = null): QueryBuilder
-    {
-        return $queryBuilder ?? $this->createQueryBuilder('tag');
-    }
-
-    /**
      * Save entity.
      *
      * @param Tag $tag Tag entity
+     *
+     * @return void
      */
     public function save(Tag $tag): void
     {
@@ -65,10 +62,24 @@ class TagRepository extends ServiceEntityRepository
      * Delete entity.
      *
      * @param Tag $tag Tag entity
+     *
+     * @return void
      */
     public function delete(Tag $tag): void
     {
         $this->_em->remove($tag);
         $this->_em->flush();
+    }
+
+    /**
+     * Get or create new query builder.
+     *
+     * @param QueryBuilder|null $queryBuilder Query builder
+     *
+     * @return QueryBuilder Query builder
+     */
+    private function getOrCreateQueryBuilder(?QueryBuilder $queryBuilder = null): QueryBuilder
+    {
+        return $queryBuilder ?? $this->createQueryBuilder('tag');
     }
 }

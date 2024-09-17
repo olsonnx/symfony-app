@@ -1,6 +1,8 @@
 <?php
 /**
- * Category service.
+ * Notice management app
+ *
+ * contact me at aleksander.ruszkowski@student.uj.edu.pl
  */
 
 namespace App\Service;
@@ -19,7 +21,7 @@ use Doctrine\ORM\EntityManagerInterface;
 /**
  * Class CategoryService.
  *
- * Serwis obsĹ‚ugujÄ…cy logikÄ™ zwiÄ…zanÄ… z kategoriami.
+ * Serwis obsługujący logikę związaną z kategoriami.
  */
 class CategoryService implements CategoryServiceInterface
 {
@@ -31,31 +33,21 @@ class CategoryService implements CategoryServiceInterface
     private const PAGINATOR_ITEMS_PER_PAGE = 10;
 
     /**
-     * @var EntityManagerInterface Entity Manager do zarzÄ…dzania encjami
-     */
-    private EntityManagerInterface $entityManager;
-
-    /**
      * Constructor.
      *
      * @param CategoryRepository     $categoryRepository Repozytorium kategorii
-     * @param NoticeRepository       $noticeRepository   Repozytorium ogĹ‚oszeĹ„
+     * @param NoticeRepository       $noticeRepository   Repozytorium ogłoszeń
      * @param PaginatorInterface     $paginator          Paginator
      * @param EntityManagerInterface $entityManager      Manager encji Doctrine
      */
-    public function __construct(
-        private readonly CategoryRepository $categoryRepository,
-        private readonly NoticeRepository $noticeRepository,
-        private readonly PaginatorInterface $paginator,
-        EntityManagerInterface $entityManager,  // WstrzykniÄ™cie EntityManager
-    ) {
-        $this->entityManager = $entityManager;  // Przypisanie entity managera
+    public function __construct(private readonly CategoryRepository $categoryRepository, private readonly NoticeRepository $noticeRepository, private readonly PaginatorInterface $paginator, private readonly EntityManagerInterface $entityManager)
+    {
     }
 
     /**
      * Get paginated list of categories.
      *
-     * Pobiera paginowanÄ… listÄ™ kategorii.
+     * Pobiera paginowaną listę kategorii.
      *
      * @param int $page Numer strony
      *
@@ -73,11 +65,11 @@ class CategoryService implements CategoryServiceInterface
     /**
      * Get category with related notices.
      *
-     * Pobiera kategoriÄ™ wraz z powiÄ…zanymi ogĹ‚oszeniami.
+     * Pobiera kategorię wraz z powiązanymi ogłoszeniami.
      *
      * @param int $categoryId ID kategorii
      *
-     * @return array|null Zwraca tablicÄ™ z kategoriÄ… i jej ogĹ‚oszeniami lub null, jeĹ›li nie znaleziono
+     * @return array|null Zwraca tablicę z kategorią i jej ogłoszeniami lub null, jeśli nie znaleziono
      */
     public function getCategoryWithNotices(int $categoryId): ?array
     {
@@ -87,12 +79,12 @@ class CategoryService implements CategoryServiceInterface
             return null;
         }
 
-        // Nawet jeĹ›li nie ma ogĹ‚oszeĹ„, zwracamy pustÄ… tablicÄ™ zamiast nulla
+        // Nawet jeśli nie ma ogłoszeń, zwracamy pustą tablicę zamiast nulla
         $notices = $this->noticeRepository->findByCategory($category);
 
         return [
             'category' => $category,
-            'notices' => $notices ?? [], // Zabezpieczenie na wypadek braku ogĹ‚oszeĹ„
+            'notices' => $notices ?? [], // Zabezpieczenie na wypadek braku ogłoszeń
         ];
     }
 
@@ -106,7 +98,6 @@ class CategoryService implements CategoryServiceInterface
      */
     public function save(Category $category): void
     {
-
         $this->categoryRepository->save($category);
     }
 
@@ -117,7 +108,7 @@ class CategoryService implements CategoryServiceInterface
      */
     public function delete(Category $category): void
     {
-        // UĹĽyj EntityManager do usuniÄ™cia encji
+        // Użyj EntityManager do usunięcia encji
         $this->entityManager->remove($category);
         $this->entityManager->flush();
     }

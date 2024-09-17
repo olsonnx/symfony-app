@@ -1,4 +1,9 @@
 <?php
+/**
+ * Notice management app
+ *
+ * contact me at aleksander.ruszkowski@student.uj.edu.pl
+ */
 
 namespace App\Dto;
 
@@ -8,6 +13,8 @@ use App\Entity\Tag;
 
 /**
  * Class NoticeListFiltersDto.
+ *
+ * This class represents the filters used for querying notice lists.
  */
 class NoticeListFiltersDto
 {
@@ -17,6 +24,10 @@ class NoticeListFiltersDto
 
     /**
      * Constructor.
+     *
+     * @param Category|null     $category The category filter
+     * @param Tag|null          $tag      The tag filter
+     * @param NoticeStatus|null $status   The status filter
      */
     public function __construct(?Category $category, ?Tag $tag, ?NoticeStatus $status)
     {
@@ -27,6 +38,8 @@ class NoticeListFiltersDto
 
     /**
      * Get category.
+     *
+     * @return Category|null The category entity or null if not set
      */
     public function getCategory(): ?Category
     {
@@ -35,6 +48,8 @@ class NoticeListFiltersDto
 
     /**
      * Get tag.
+     *
+     * @return Tag|null The tag entity or null if not set
      */
     public function getTag(): ?Tag
     {
@@ -43,6 +58,8 @@ class NoticeListFiltersDto
 
     /**
      * Get status.
+     *
+     * @return NoticeStatus|null The notice status entity or null if not set
      */
     public function getStatus(): ?NoticeStatus
     {

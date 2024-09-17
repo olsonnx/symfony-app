@@ -1,6 +1,8 @@
 <?php
 /**
- * Category entity.
+ * Notice management app
+ *
+ * contact me at aleksander.ruszkowski@student.uj.edu.pl
  */
 
 namespace App\Entity;
@@ -79,20 +81,20 @@ class Category
         $this->notices = new ArrayCollection();
     }
 
-    // Getter and setter for Id
-
     /**
      * Get the ID.
+     *
+     * @return int|null The ID of the category
      */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    // Getter and setter for createdAt
-
     /**
      * Get created at.
+     *
+     * @return \DateTimeImmutable|null The creation timestamp
      */
     public function getCreatedAt(): ?\DateTimeImmutable
     {
@@ -101,6 +103,8 @@ class Category
 
     /**
      * Set created at.
+     *
+     * @param \DateTimeImmutable $createdAt The creation timestamp
      *
      * @return $this
      */
@@ -111,10 +115,10 @@ class Category
         return $this;
     }
 
-    // Getter and setter for updatedAt
-
     /**
      * Get updated at.
+     *
+     * @return \DateTimeImmutable|null The last updated timestamp
      */
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
@@ -123,6 +127,8 @@ class Category
 
     /**
      * Set updated at.
+     *
+     * @param \DateTimeImmutable $updatedAt The last updated timestamp
      *
      * @return $this
      */
@@ -133,10 +139,10 @@ class Category
         return $this;
     }
 
-    // Getter and setter for title
-
     /**
      * Get the title.
+     *
+     * @return string|null The title of the category
      */
     public function getTitle(): ?string
     {
@@ -145,6 +151,8 @@ class Category
 
     /**
      * Set the title.
+     *
+     * @param string $title The title of the category
      *
      * @return $this
      */
@@ -155,8 +163,6 @@ class Category
         return $this;
     }
 
-    // Setter for creation date
-
     /**
      * Automatically set the created date before saving to the database.
      *
@@ -165,11 +171,9 @@ class Category
     public function setCreatedAtValue(): void
     {
         if (null === $this->createdAt) {
-            $this->createdAt = new \DateTimeImmutable();  // Set the current date and time when creating
+            $this->createdAt = new \DateTimeImmutable();
         }
     }
-
-    // Setter for update date
 
     /**
      * Automatically set the updated date before saving to the database.
@@ -178,13 +182,13 @@ class Category
      */
     public function setUpdatedAtValue(): void
     {
-        $this->updatedAt = new \DateTimeImmutable();  // Set the current date and time for each update
+        $this->updatedAt = new \DateTimeImmutable();
     }
-
-    // Getter and setter for slug
 
     /**
      * Get the slug.
+     *
+     * @return string|null The slug (URL-friendly identifier)
      */
     public function getSlug(): ?string
     {
@@ -193,6 +197,8 @@ class Category
 
     /**
      * Set the slug.
+     *
+     * @param string $slug The slug (URL-friendly identifier)
      *
      * @return $this
      */
@@ -203,10 +209,10 @@ class Category
         return $this;
     }
 
-    // Relation with notices
-
     /**
      * Get all notices related to this category.
+     *
+     * @return Collection The collection of notices
      */
     public function getNotices(): Collection
     {
@@ -216,13 +222,15 @@ class Category
     /**
      * Add a notice to the category.
      *
+     * @param Notice $notice The notice entity
+     *
      * @return $this
      */
     public function addNotice(Notice $notice): static
     {
         if (!$this->notices->contains($notice)) {
             $this->notices->add($notice);
-            $notice->setCategory($this);  // Set the reverse relationship
+            $notice->setCategory($this);
         }
 
         return $this;
@@ -231,12 +239,13 @@ class Category
     /**
      * Remove a notice from the category.
      *
+     * @param Notice $notice The notice entity
+     *
      * @return $this
      */
     public function removeNotice(Notice $notice): static
     {
         if ($this->notices->removeElement($notice)) {
-            // If we remove the notice, reset the category in Notice
             if ($notice->getCategory() === $this) {
                 $notice->setCategory(null);
             }

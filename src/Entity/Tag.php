@@ -1,4 +1,9 @@
 <?php
+/**
+ * Notice management app
+ *
+ * contact me at aleksander.ruszkowski@student.uj.edu.pl
+ */
 
 namespace App\Entity;
 
@@ -73,6 +78,8 @@ class Tag
 
     /**
      * Get the ID of the tag.
+     *
+     * @return int|null The ID of the tag
      */
     public function getId(): ?int
     {
@@ -81,6 +88,8 @@ class Tag
 
     /**
      * Get the title of the tag.
+     *
+     * @return string|null The title of the tag
      */
     public function getTitle(): ?string
     {
@@ -89,6 +98,8 @@ class Tag
 
     /**
      * Set the title of the tag.
+     *
+     * @param string $title The title of the tag
      *
      * @return $this
      */
@@ -101,6 +112,8 @@ class Tag
 
     /**
      * Get the created at timestamp.
+     *
+     * @return \DateTimeImmutable|null The created at timestamp
      */
     public function getCreatedAt(): ?\DateTimeImmutable
     {
@@ -109,6 +122,8 @@ class Tag
 
     /**
      * Set the created at timestamp.
+     *
+     * @param \DateTimeImmutable $createdAt The creation timestamp
      *
      * @return $this
      */
@@ -121,6 +136,8 @@ class Tag
 
     /**
      * Get the updated at timestamp.
+     *
+     * @return \DateTimeImmutable|null The updated at timestamp
      */
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
@@ -129,6 +146,8 @@ class Tag
 
     /**
      * Set the updated at timestamp.
+     *
+     * @param \DateTimeImmutable $updatedAt The updated timestamp
      *
      * @return $this
      */
@@ -141,6 +160,8 @@ class Tag
 
     /**
      * Get the slug for the tag.
+     *
+     * @return string|null The slug of the tag
      */
     public function getSlug(): ?string
     {
@@ -149,6 +170,8 @@ class Tag
 
     /**
      * Set the slug for the tag.
+     *
+     * @param string $slug The slug of the tag
      *
      * @return $this
      */
@@ -162,7 +185,7 @@ class Tag
     /**
      * Get notices associated with the tag.
      *
-     * @return Collection<int, Notice>
+     * @return Collection<int, Notice> Collection of notices
      */
     public function getNotices(): Collection
     {
@@ -171,6 +194,8 @@ class Tag
 
     /**
      * Add a notice to the tag.
+     *
+     * @param Notice $notice The notice to add
      *
      * @return $this
      */
@@ -186,6 +211,8 @@ class Tag
 
     /**
      * Remove a notice from the tag.
+     *
+     * @param Notice $notice The notice to remove
      *
      * @return $this
      */

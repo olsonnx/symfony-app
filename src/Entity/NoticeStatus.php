@@ -1,4 +1,9 @@
 <?php
+/**
+ * Notice management app
+ *
+ * contact me at aleksander.ruszkowski@student.uj.edu.pl
+ */
 
 namespace App\Entity;
 
@@ -13,6 +18,8 @@ class NoticeStatus
 
     /**
      * Zwraca wszystkie dostępne statusy.
+     *
+     * @return array Lista dostępnych statusów
      */
     public static function getAvailableStatuses(): array
     {
@@ -25,6 +32,10 @@ class NoticeStatus
 
     /**
      * Zwraca status na podstawie wartości.
+     *
+     * @param string $statusId Identyfikator statusu
+     *
+     * @return string|null Status lub null, jeśli status nie istnieje
      */
     public static function from(string $statusId): ?string
     {

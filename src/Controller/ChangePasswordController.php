@@ -1,4 +1,9 @@
 <?php
+/**
+ * Notice management app.
+ *
+ * Contact: aleksander.ruszkowski@student.uj.edu.pl
+ */
 
 namespace App\Controller;
 
@@ -23,6 +28,9 @@ class ChangePasswordController extends AbstractController
 
     /**
      * Constructor.
+     *
+     * @param ChangePasswordServiceInterface $changePasswordService Service for changing password
+     * @param TranslatorInterface            $translator            Service for translations
      */
     public function __construct(ChangePasswordServiceInterface $changePasswordService, TranslatorInterface $translator)
     {
@@ -32,6 +40,11 @@ class ChangePasswordController extends AbstractController
 
     /**
      * Change password action.
+     *
+     * @param Request       $request HTTP request
+     * @param UserInterface $user    The current authenticated user
+     *
+     * @return Response HTTP response with the form or redirection after success
      */
     #[Route('/', name: 'change_password', methods: ['GET', 'POST'])]
     public function changePassword(Request $request, UserInterface $user): Response

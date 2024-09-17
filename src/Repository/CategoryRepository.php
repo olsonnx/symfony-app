@@ -1,4 +1,9 @@
 <?php
+/**
+ * Notice management app
+ *
+ * contact me at aleksander.ruszkowski@student.uj.edu.pl
+ */
 
 namespace App\Repository;
 
@@ -19,10 +24,34 @@ class CategoryRepository extends ServiceEntityRepository
 {
     /**
      * Constructor.
+     *
+     * @param ManagerRegistry $registry Manager registry
      */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Category::class);
+    }
+
+    /**
+     * Save entity.
+     *
+     * @param Category $category Category entity
+     */
+    public function save(Category $category): void
+    {
+        $this->_em->persist($category);
+        $this->_em->flush();
+    }
+
+    /**
+     * Delete entity.
+     *
+     * @param Category $category Category entity
+     */
+    public function delete(Category $category): void
+    {
+        $this->_em->remove($category);
+        $this->_em->flush();
     }
 
     /**
@@ -48,23 +77,5 @@ class CategoryRepository extends ServiceEntityRepository
     private function getOrCreateQueryBuilder(?QueryBuilder $queryBuilder = null): QueryBuilder
     {
         return $queryBuilder ?? $this->createQueryBuilder('category');
-    }
-
-    /**
-     * Save entity.
-     */
-    public function save(Category $category): void
-    {
-        $this->_em->persist($category);
-        $this->_em->flush();
-    }
-
-    /**
-     * Delete entity.
-     */
-    public function delete(Category $category): void
-    {
-        $this->_em->remove($category);
-        $this->_em->flush();
     }
 }

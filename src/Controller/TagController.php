@@ -1,4 +1,9 @@
 <?php
+/**
+ * Notice management app
+ *
+ * contact me at aleksander.ruszkowski@student.uj.edu.pl
+ */
 
 namespace App\Controller;
 
@@ -22,6 +27,12 @@ class TagController extends AbstractController
     private TagServiceInterface $tagService;
     private TranslatorInterface $translator;
 
+    /**
+     * Constructor.
+     *
+     * @param TagServiceInterface $tagService Service to handle tag-related operations
+     * @param TranslatorInterface $translator Translator for internationalization
+     */
     public function __construct(TagServiceInterface $tagService, TranslatorInterface $translator)
     {
         $this->tagService = $tagService;
@@ -30,28 +41,29 @@ class TagController extends AbstractController
 
     /**
      * Index action.
+     *
+     * @param Request $request HTTP request
+     *
+     * @return Response HTTP response with paginated list of tags
      */
     #[Route(name: 'tag_index', methods: ['GET'])]
     public function index(Request $request): Response
     {
         $page = $request->query->getInt('page', 1);
-        $sort = $request->query->get('sort', 'tag.title'); // Domyślne sortowanie po tytule
-        $direction = $request->query->get('direction', 'asc'); // Domyślnie rosnąco
+        $sort = $request->query->get('sort', 'tag.title');
+        $direction = $request->query->get('direction', 'asc');
 
-        // Pobranie paginowanej listy tagów z obsługą sortowania
         $pagination = $this->tagService->getPaginatedList($page, $sort, $direction);
 
         // Tworzenie formatera daty zgodnie z locale
-        $locale = $this->translator->getLocale();  // Pobieramy aktualne locale
+        $locale = $this->translator->getLocale();
         $formatter = new \IntlDateFormatter(
             $locale,
             \IntlDateFormatter::LONG,
             \IntlDateFormatter::NONE
         );
 
-        // Formatowanie dat utworzenia i aktualizacji dla tagów
         foreach ($pagination->getItems() as $tag) {
-            // Używamy getterów do uzyskania dat utworzenia i aktualizacji
             $tag->createdAtFormatted = $tag->getCreatedAt() ? $formatter->format($tag->getCreatedAt()) : null;
             $tag->updatedAtFormatted = $tag->getUpdatedAt() ? $formatter->format($tag->getUpdatedAt()) : null;
         }
@@ -63,6 +75,10 @@ class TagController extends AbstractController
 
     /**
      * Create action.
+     *
+     * @param Request $request HTTP request
+     *
+     * @return Response HTTP response after creating a new tag
      */
     #[Route('/create', name: 'tag_create', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]
@@ -86,6 +102,11 @@ class TagController extends AbstractController
 
     /**
      * Edit action.
+     *
+     * @param Request $request HTTP request
+     * @param Tag     $tag     Tag entity
+     *
+     * @return Response HTTP response after editing a tag
      */
     #[Route('/{id}/edit', name: 'tag_edit', methods: ['GET', 'PUT'])]
     #[IsGranted('EDIT', subject: 'tag')]
@@ -112,6 +133,11 @@ class TagController extends AbstractController
 
     /**
      * Delete action.
+     *
+     * @param Request $request HTTP request
+     * @param Tag     $tag     Tag entity
+     *
+     * @return Response HTTP response after deleting a tag
      */
     #[Route('/{id}/delete', name: 'tag_delete', methods: ['GET', 'DELETE'])]
     #[IsGranted('DELETE', subject: 'tag')]

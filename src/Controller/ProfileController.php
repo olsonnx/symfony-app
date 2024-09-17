@@ -1,4 +1,9 @@
 <?php
+/**
+ * Notice management app
+ *
+ * contact me at aleksander.ruszkowski@student.uj.edu.pl
+ */
 
 namespace App\Controller;
 
@@ -21,6 +26,8 @@ class ProfileController extends AbstractController
 
     /**
      * Constructor.
+     *
+     * @param ProfileServiceInterface $profileService Service to manage user profiles
      */
     public function __construct(ProfileServiceInterface $profileService)
     {
@@ -29,6 +36,8 @@ class ProfileController extends AbstractController
 
     /**
      * Show profile action.
+     *
+     * @return Response HTTP response displaying the user's profile
      */
     #[Route('/', name: 'profile', methods: ['GET'])]
     public function show(): Response
@@ -46,6 +55,10 @@ class ProfileController extends AbstractController
 
     /**
      * Edit profile action.
+     *
+     * @param Request $request HTTP request
+     *
+     * @return Response HTTP response with the profile edit form or redirection after successful update
      */
     #[Route('/edit', name: 'profile_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request): Response

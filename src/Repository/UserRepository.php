@@ -1,4 +1,9 @@
 <?php
+/**
+ * Notice management app
+ *
+ * contact me at aleksander.ruszkowski@student.uj.edu.pl
+ */
 
 namespace App\Repository;
 
@@ -19,6 +24,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 {
     /**
      * Constructor.
+     *
+     * @param ManagerRegistry $registry Manager registry
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -28,7 +35,12 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     /**
      * Upgrade the user's password automatically over time.
      *
-     * @throws UnsupportedUserException
+     * @param PasswordAuthenticatedUserInterface $user              User entity
+     * @param string                             $newHashedPassword The new hashed password
+     *
+     * @throws UnsupportedUserException If the user is not an instance of the User class
+     *
+     * @return void
      */
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {
@@ -60,6 +72,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     /**
      * Find users by a specific field.
      *
+     * @param mixed $value The value to search for
+     *
      * @return User[] Returns an array of User objects
      */
     public function findByExampleField($value): array
@@ -75,6 +89,10 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     /**
      * Find a single user by a specific field.
+     *
+     * @param mixed $value The value to search for
+     *
+     * @return User|null Returns a User object or null if no user is found
      */
     public function findOneBySomeField($value): ?User
     {
@@ -87,6 +105,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     /**
      * Find all users by role (optimized with partial data).
+     *
+     * @param string $role The role to filter users by
      *
      * @return User[] Returns an array of User objects with limited fields
      */
@@ -104,7 +124,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     /**
      * Get or create new query builder.
      *
-     * @param QueryBuilder|null $queryBuilder Query builder
+     * @param QueryBuilder|null $queryBuilder Optional query builder to modify
      *
      * @return QueryBuilder Query builder
      */

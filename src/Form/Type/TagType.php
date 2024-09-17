@@ -1,4 +1,9 @@
 <?php
+/**
+ * Notice management app
+ *
+ * contact me at aleksander.ruszkowski@student.uj.edu.pl
+ */
 
 namespace App\Form\Type;
 
@@ -13,6 +18,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class TagType extends AbstractType
 {
+    /**
+     * Build the form.
+     *
+     * @param FormBuilderInterface $builder The form builder
+     * @param array                $options The form options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('title', TextType::class, [
@@ -22,11 +33,21 @@ class TagType extends AbstractType
         ]);
     }
 
+    /**
+     * Configure the form options.
+     *
+     * @param OptionsResolver $resolver The options resolver
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(['data_class' => Tag::class]);
     }
 
+    /**
+     * Get the block prefix for the form.
+     *
+     * @return string Block prefix
+     */
     public function getBlockPrefix(): string
     {
         return 'tag';

@@ -1,4 +1,9 @@
 <?php
+/**
+ * Notice management app
+ *
+ * contact me at aleksander.ruszkowski@student.uj.edu.pl
+ */
 
 namespace App\Controller;
 
@@ -19,6 +24,8 @@ class RegistrationController extends AbstractController
 
     /**
      * Constructor.
+     *
+     * @param RegistrationServiceInterface $registrationService Service to handle user registration
      */
     public function __construct(RegistrationServiceInterface $registrationService)
     {
@@ -27,6 +34,10 @@ class RegistrationController extends AbstractController
 
     /**
      * Register a new user.
+     *
+     * @param Request $request HTTP request
+     *
+     * @return Response HTTP response with the registration form or redirection after successful registration
      */
     #[Route('/register', name: 'app_register', methods: ['GET', 'POST'])]
     public function register(Request $request): Response
