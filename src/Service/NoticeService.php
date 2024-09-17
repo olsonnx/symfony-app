@@ -1,6 +1,8 @@
 <?php
 /**
- * Notice service.
+ * Notice management app
+ *
+ * contact me at aleksander.ruszkowski@student.uj.edu.pl
  */
 
 namespace App\Service;
@@ -18,80 +20,50 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
 /**
- * Class NoticeService.
+ * Class NoticeService
+ *
+ * Service responsible for handling notices.
  */
 class NoticeService implements NoticeServiceInterface
 {
-    /**
-     * Liczba elementĂłw na stronÄ™.
-     *
-     * @constant int
-     */
     private const PAGINATOR_ITEMS_PER_PAGE = 10;
-
-    /**
-     * @var EntityManagerInterface Entity Manager do zarzÄ…dzania encjami
-     */
-    private EntityManagerInterface $entityManager;
 
     /**
      * Constructor.
      *
      * @param CategoryServiceInterface $categoryService  Category service
-     * @param PaginatorInterface       $paginator        Paginator
+     * @param PaginatorInterface       $paginator        Paginator for pagination
      * @param TagServiceInterface      $tagService       Tag service
      * @param NoticeRepository         $noticeRepository Notice repository
-     * @param EntityManagerInterface   $entityManager    Entity Manager
+     * @param EntityManagerInterface   $entityManager    Entity manager
      */
-    public function __construct(
-        private readonly CategoryServiceInterface $categoryService,
-        private readonly PaginatorInterface $paginator,
-        private readonly TagServiceInterface $tagService,
-        private readonly NoticeRepository $noticeRepository,
-        EntityManagerInterface $entityManager,
-    ) {
-        $this->entityManager = $entityManager;
-    }
-
-    /**
-     * Prepare filters for the notices list.
-     *
-     * @param NoticeListInputFiltersDto $filters Raw filters from request
-     *
-     * @return NoticeListFiltersDto Result filters
-     *
-     * @throws NonUniqueResultException
-     */
-    private function prepareFilters(NoticeListInputFiltersDto $filters): NoticeListFiltersDto
+    public function __construct(private readonly CategoryServiceInterface $categoryService, private readonly PaginatorInterface $paginator, private readonly TagServiceInterface $tagService, private readonly NoticeRepository $noticeRepository, private readonly EntityManagerInterface $entityManager)
     {
-        return new NoticeListFiltersDto(
-            null !== $filters->categoryId ? $this->categoryService->findOneById($filters->categoryId) : null,
-            null !== $filters->tagId ? $this->tagService->findOneById($filters->tagId) : null,
-            // Ustaw status jako null, jeĹ›li uĹĽytkownik ma rolÄ™ administratora (statusId = -1)
-            -1 === $filters->statusId ? null : NoticeStatus::from($filters->statusId)
-        );
     }
 
     /**
-     * get paginated list.
+     * Get paginated list of notices.
+     *
+     * @param int                       $page    Page number
+     * @param User|null                 $author  Notice author
+     * @param NoticeListInputFiltersDto $filters Filters for the notice listing
+     *
+     * @return PaginationInterface Paginated list of notices
      *
      * @throws NonUniqueResultException
      */
     public function getPaginatedList(int $page, ?User $author, NoticeListInputFiltersDto $filters): PaginationInterface
     {
-        // PrzeksztaĹ‚Ä‡ NoticeListInputFiltersDto na NoticeListFiltersDto
         $filters = $this->prepareFilters($filters);
 
-        // JeĹ›li admin, nie ograniczaj po autorze
         if ($author && in_array('ROLE_ADMIN', $author->getRoles())) {
             return $this->paginator->paginate(
-                $this->noticeRepository->queryAll($filters),  // PrzekaĹĽ odpowiednie filtry
+                $this->noticeRepository->queryAll($filters),
                 $page,
                 self::PAGINATOR_ITEMS_PER_PAGE
             );
         }
 
-        // Inni uĹĽytkownicy widzÄ… tylko swoje ogĹ‚oszenia lub publiczne
         return $this->paginator->paginate(
             $this->noticeRepository->queryByAuthor($author, $filters),
             $page,
@@ -102,11 +74,9 @@ class NoticeService implements NoticeServiceInterface
     /**
      * Get a single notice by ID.
      *
-     * Pobiera pojedyncze ogĹ‚oszenie na podstawie ID.
+     * @param int $noticeId Notice ID
      *
-     * @param int $noticeId ID ogĹ‚oszenia
-     *
-     * @return Notice|null Zwraca obiekt ogĹ‚oszenia lub null, jeĹ›li nie znaleziono
+     * @return Notice|null The notice or null if not found
      */
     public function getNotice(int $noticeId): ?Notice
     {
@@ -114,9 +84,9 @@ class NoticeService implements NoticeServiceInterface
     }
 
     /**
-     * Save entity.
+     * Save a notice entity.
      *
-     * @param Notice $notice Notice entity
+     * @param Notice $notice The notice entity
      */
     public function save(Notice $notice): void
     {
@@ -125,11 +95,9 @@ class NoticeService implements NoticeServiceInterface
     }
 
     /**
-     * Delete a notice.
+     * Delete a notice entity.
      *
-     * Usuwa ogĹ‚oszenie.
-     *
-     * @param Notice $notice Encja ogĹ‚oszenia
+     * @param Notice $notice The notice entity
      */
     public function delete(Notice $notice): void
     {
@@ -138,29 +106,44 @@ class NoticeService implements NoticeServiceInterface
     }
 
     /**
-     * Can Notice be deleted?
+     * Check if a notice can be deleted.
      *
-     * Sprawdza, czy ogĹ‚oszenie moĹĽe byÄ‡ usuniÄ™te.
+     * @param Notice $notice The notice entity
      *
-     * @param Notice $notice Notice entity
-     *
-     * @return bool Czy ogĹ‚oszenie moĹĽe byÄ‡ usuniÄ™te
+     * @return bool Whether the notice can be deleted
      */
     public function canBeDeleted(Notice $notice): bool
     {
-        // Tutaj moĹĽesz dodaÄ‡ dodatkowe logiki, np. czy sÄ… zaleĹĽnoĹ›ci, ktĂłre blokujÄ… usuniÄ™cie.
         return true;
     }
 
     /**
-     * Find by title.
+     * Find a tag by title.
      *
-     * @param string $title Tag title
+     * @param string $title The tag title
      *
-     * @return Tag|null Tag entity
+     * @return Tag|null The found tag or null if not found
      */
     public function findOneByTitle(string $title): ?Tag
     {
         return $this->tagRepository->findOneByTitle($title);
+    }
+
+    /**
+     * Prepare filters for the notice list.
+     *
+     * @param NoticeListInputFiltersDto $filters Raw filters from the request
+     *
+     * @return NoticeListFiltersDto Processed filters
+     *
+     * @throws NonUniqueResultException
+     */
+    private function prepareFilters(NoticeListInputFiltersDto $filters): NoticeListFiltersDto
+    {
+        return new NoticeListFiltersDto(
+            null !== $filters->categoryId ? $this->categoryService->findOneById($filters->categoryId) : null,
+            null !== $filters->tagId ? $this->tagService->findOneById($filters->tagId) : null,
+            -1 === $filters->statusId ? null : NoticeStatus::from($filters->statusId)
+        );
     }
 }

@@ -1,4 +1,9 @@
 <?php
+/**
+ * Notice management app
+ *
+ * contact me at aleksander.ruszkowski@student.uj.edu.pl
+ */
 
 namespace App\Service;
 
@@ -16,6 +21,9 @@ class ChangePasswordService implements ChangePasswordServiceInterface
 
     /**
      * Constructor.
+     *
+     * @param UserPasswordHasherInterface $passwordHasher The password hasher service
+     * @param EntityManagerInterface      $entityManager  The Doctrine entity manager
      */
     public function __construct(UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager)
     {

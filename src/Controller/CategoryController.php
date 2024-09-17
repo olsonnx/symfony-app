@@ -1,4 +1,9 @@
 <?php
+/**
+ * Notice management app.
+ *
+ * contact me at aleksander.ruszkowski@student.uj.edu.pl
+ */
 
 namespace App\Controller;
 
@@ -38,6 +43,8 @@ class CategoryController extends AbstractController
      * Index action.
      *
      * @param Request $request HTTP request
+     *
+     * @return Response HTTP response with paginated category list.
      */
     #[Route(name: 'category_index', methods: ['GET'])]
     public function index(Request $request): Response
@@ -55,6 +62,10 @@ class CategoryController extends AbstractController
 
     /**
      * Show action.
+     *
+     * @param Category $category Category entity
+     *
+     * @return Response HTTP response with category details and formatted notices.
      */
     #[Route('/{id}', name: 'category_show', requirements: ['id' => '\d+'], methods: ['GET'])]
     #[IsGranted('VIEW', subject: 'category')]
@@ -90,6 +101,10 @@ class CategoryController extends AbstractController
 
     /**
      * Create action.
+     *
+     * @param Request $request HTTP request
+     *
+     * @return Response HTTP response with category creation form.
      */
     #[Route('/create', name: 'category_create', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]
@@ -113,6 +128,11 @@ class CategoryController extends AbstractController
 
     /**
      * Edit action.
+     *
+     * @param Request  $request  HTTP request
+     * @param Category $category Category entity
+     *
+     * @return Response HTTP response with category edit form.
      */
     #[Route('/{id}/edit', name: 'category_edit', requirements: ['id' => '[1-9]\d*'], methods: ['GET', 'PUT'])]
     #[IsGranted('EDIT', subject: 'category')]
@@ -143,7 +163,7 @@ class CategoryController extends AbstractController
      * @param Request  $request  HTTP request
      * @param Category $category Category entity
      *
-     * @return Response HTTP response
+     * @return Response HTTP response after deletion process.
      */
     #[Route('/{id}/delete', name: 'category_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
     #[IsGranted('DELETE', subject: 'category')]

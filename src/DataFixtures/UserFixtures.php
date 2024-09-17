@@ -1,4 +1,9 @@
 <?php
+/**
+ * Notice management app
+ *
+ * contact me at aleksander.ruszkowski@student.uj.edu.pl
+ */
 
 namespace App\DataFixtures;
 
@@ -10,11 +15,18 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * Class UserFixtures.
+ *
+ * This class is responsible for loading user and admin data into the database.
  */
 class UserFixtures extends Fixture
 {
     private UserPasswordHasherInterface $passwordHasher;
 
+    /**
+     * Constructor.
+     *
+     * @param UserPasswordHasherInterface $passwordHasher The password hasher service
+     */
     public function __construct(UserPasswordHasherInterface $passwordHasher)
     {
         $this->passwordHasher = $passwordHasher;
@@ -22,6 +34,10 @@ class UserFixtures extends Fixture
 
     /**
      * Load data fixtures with the passed EntityManager.
+     *
+     * @param ObjectManager $manager The object manager for persisting data
+     *
+     * @return void
      */
     public function load(ObjectManager $manager): void
     {
@@ -29,18 +45,14 @@ class UserFixtures extends Fixture
         for ($i = 0; $i < 10; ++$i) {
             $user = new User();
             $user->setEmail(sprintf('user%d@example.com', $i));
-
-
             $user->setRoles([UserRole::ROLE_USER]);
-
-
             $user->setPassword(
                 $this->passwordHasher->hashPassword($user, 'user1234')
             );
 
-
             $manager->persist($user);
         }
+
         // Tworzenie administratorów
         for ($i = 0; $i < 3; ++$i) {
             $admin = new User();

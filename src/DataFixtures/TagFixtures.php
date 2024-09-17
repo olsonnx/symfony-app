@@ -1,6 +1,8 @@
 <?php
 /**
- * Tag fixtures.
+ * Notice management app
+ *
+ * contact me at aleksander.ruszkowski@student.uj.edu.pl
  */
 
 namespace App\DataFixtures;

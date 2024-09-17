@@ -1,4 +1,9 @@
 <?php
+/**
+ * Notice management app
+ *
+ * contact me at aleksander.ruszkowski@student.uj.edu.pl
+ */
 
 namespace App\Form\Type;
 
@@ -15,10 +20,15 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class ChangePasswordType extends AbstractType
 {
+    /**
+     * Build the form.
+     *
+     * @param FormBuilderInterface $builder The form builder
+     * @param array                $options The options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            // Pole na bieĹĽÄ…ce hasĹ‚o
             ->add('currentPassword', PasswordType::class, [
                 'label' => 'label.current_password',
                 'mapped' => false,
@@ -26,7 +36,6 @@ class ChangePasswordType extends AbstractType
                     new UserPassword(['message' => 'validators.invalid_current_password']),
                 ],
             ])
-            // Pole na nowe hasĹ‚o, z dwukrotnym powtĂłrzeniem dla walidacji
             ->add('newPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'first_options' => ['label' => 'label.new_password'],
@@ -43,13 +52,20 @@ class ChangePasswordType extends AbstractType
             ]);
     }
 
+    /**
+     * Configure the form options.
+     *
+     * @param OptionsResolver $resolver The resolver for the options
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        // Bez przypisania ĹĽadnej klasy encji
+        // No entity class is mapped
     }
 
     /**
-     * block prefix getter.
+     * Get the block prefix.
+     *
+     * @return string The block prefix
      */
     public function getBlockPrefix(): string
     {

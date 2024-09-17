@@ -1,6 +1,8 @@
 <?php
 /**
- * Notice entity.
+ * Notice management app
+ *
+ * contact me at aleksander.ruszkowski@student.uj.edu.pl
  */
 
 namespace App\Entity;
@@ -54,8 +56,8 @@ class Notice
      * Content.
      */
     #[ORM\Column(length: 4096, nullable: true)]
-    #[Assert\NotBlank(message: 'title.not_blank')]
-    #[Assert\Length(max: 4096, maxMessage: 'title.too_long')]
+    #[Assert\NotBlank(message: 'content.not_blank')]
+    #[Assert\Length(max: 4096, maxMessage: 'content.too_long')]
     private ?string $content = null;
 
     /**
@@ -97,6 +99,8 @@ class Notice
 
     /**
      * Get the notice ID.
+     *
+     * @return int|null The ID of the notice
      */
     public function getId(): ?int
     {
@@ -105,6 +109,8 @@ class Notice
 
     /**
      * Get the notice title.
+     *
+     * @return string|null The title of the notice
      */
     public function getTitle(): ?string
     {
@@ -113,6 +119,8 @@ class Notice
 
     /**
      * Set the notice title.
+     *
+     * @param string $title The title of the notice
      *
      * @return $this
      */
@@ -125,6 +133,8 @@ class Notice
 
     /**
      * Get the creation date.
+     *
+     * @return \DateTimeImmutable|null The creation timestamp
      */
     public function getCreatedAt(): ?\DateTimeImmutable
     {
@@ -133,6 +143,8 @@ class Notice
 
     /**
      * Get the last update date.
+     *
+     * @return \DateTimeImmutable|null The last update timestamp
      */
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
@@ -141,6 +153,8 @@ class Notice
 
     /**
      * Get the content.
+     *
+     * @return string|null The content of the notice
      */
     public function getContent(): ?string
     {
@@ -149,6 +163,8 @@ class Notice
 
     /**
      * Set the content.
+     *
+     * @param string|null $content The content of the notice
      *
      * @return $this
      */
@@ -161,6 +177,8 @@ class Notice
 
     /**
      * Get the category.
+     *
+     * @return Category|null The category of the notice
      */
     public function getCategory(): ?Category
     {
@@ -169,6 +187,8 @@ class Notice
 
     /**
      * Set the category.
+     *
+     * @param Category|null $category The category of the notice
      *
      * @return $this
      */
@@ -182,7 +202,7 @@ class Notice
     /**
      * Get tags.
      *
-     * @return Collection<int, Tag>
+     * @return Collection<int, Tag> The tags associated with the notice
      */
     public function getTags(): Collection
     {
@@ -191,6 +211,8 @@ class Notice
 
     /**
      * Add a tag.
+     *
+     * @param Tag $tag The tag entity
      *
      * @return $this
      */
@@ -206,6 +228,8 @@ class Notice
     /**
      * Remove a tag.
      *
+     * @param Tag $tag The tag entity
+     *
      * @return $this
      */
     public function removeTag(Tag $tag): static
@@ -217,6 +241,8 @@ class Notice
 
     /**
      * Get the author.
+     *
+     * @return User|null The author of the notice
      */
     public function getAuthor(): ?User
     {
@@ -225,6 +251,8 @@ class Notice
 
     /**
      * Set the author.
+     *
+     * @param User|null $author The author of the notice
      *
      * @return $this
      */
@@ -237,6 +265,8 @@ class Notice
 
     /**
      * Get the notice status.
+     *
+     * @return string|null The status of the notice
      */
     public function getStatus(): ?string
     {
@@ -245,6 +275,8 @@ class Notice
 
     /**
      * Set the notice status.
+     *
+     * @param string $status The status of the notice
      *
      * @return $this
      */
@@ -261,6 +293,8 @@ class Notice
 
     /**
      * Get the label of the current status.
+     *
+     * @return string The status label
      */
     public function getStatusLabel(): string
     {

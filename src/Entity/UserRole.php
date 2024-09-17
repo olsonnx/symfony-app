@@ -1,4 +1,9 @@
 <?php
+/**
+ * Notice management app
+ *
+ * contact me at aleksander.ruszkowski@student.uj.edu.pl
+ */
 
 namespace App\Entity;
 
@@ -12,6 +17,8 @@ class UserRole
 
     /**
      * Get all possible role values.
+     *
+     * @return array Available role values
      */
     public static function getAvailableRoles(): array
     {
@@ -23,6 +30,8 @@ class UserRole
 
     /**
      * Get the role label.
+     *
+     * @param string $role Role
      *
      * @return string Role label
      */

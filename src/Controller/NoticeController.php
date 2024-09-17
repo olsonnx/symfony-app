@@ -1,4 +1,9 @@
 <?php
+/**
+ * Notice management app.
+ *
+ * Contact: aleksander.ruszkowski@student.uj.edu.pl
+ */
 
 namespace App\Controller;
 
@@ -26,6 +31,9 @@ class NoticeController extends AbstractController
 
     /**
      * Constructor.
+     *
+     * @param NoticeServiceInterface $noticeService Service for handling notices
+     * @param TranslatorInterface    $translator    Service for translations
      */
     public function __construct(NoticeServiceInterface $noticeService, TranslatorInterface $translator)
     {
@@ -38,23 +46,17 @@ class NoticeController extends AbstractController
      *
      * @param Request $request HTTP request
      *
-     * @return Response HTTP response
+     * @return Response HTTP response with the list of notices
      */
     #[Route(name: 'notice_index', methods: ['GET'])]
     public function index(Request $request): Response
     {
         $page = $request->query->getInt('page', 1);
-
-        // Pobranie filtrów z zapytania
         $categoryId = $request->query->getInt('categoryId');
         $tagId = $request->query->getInt('tagId');
-
-        // Tylko admin widzi wszystkie ogłoszenia, inni widzą tylko aktywne
         $statusId = (int) ($this->isGranted('ROLE_ADMIN') ? NoticeStatus::STATUS_ACTIVE : $request->query->get('statusId', NoticeStatus::STATUS_ACTIVE));
-        // Utwórz obiekt DTO z filtrami
-        $filters = new NoticeListInputFiltersDto($categoryId, $tagId, $statusId);
 
-        // Pobierz listę ogłoszeń z filtrami
+        $filters = new NoticeListInputFiltersDto($categoryId, $tagId, $statusId);
         $pagination = $this->noticeService->getPaginatedList($page, null, $filters);
 
         return $this->render('notice/index.html.twig', [
@@ -66,8 +68,9 @@ class NoticeController extends AbstractController
      * Show action.
      *
      * @param Request $request HTTP request
+     * @param Notice  $notice  Notice entity to display
      *
-     * @return Response HTTP response
+     * @return Response HTTP response displaying the notice details
      */
     #[Route('/{id}', name: 'notice_show', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
     #[IsGranted('VIEW', subject: 'notice')]
@@ -85,12 +88,11 @@ class NoticeController extends AbstractController
             return $this->redirectToRoute('notice_show', ['id' => $notice->getId()]);
         }
 
-        // Formatowanie dat zgodnie z locale
         $locale = $this->translator->getLocale();
         $dateFormatter = new \IntlDateFormatter(
             $locale,
-            \IntlDateFormatter::LONG,    // Typ formatu daty
-            \IntlDateFormatter::NONE     // Typ formatu czasu
+            \IntlDateFormatter::LONG,
+            \IntlDateFormatter::NONE
         );
 
         $formattedCreatedDate = $dateFormatter->format($notice->getCreatedAt());
@@ -109,7 +111,7 @@ class NoticeController extends AbstractController
      *
      * @param Request $request HTTP request
      *
-     * @return Response HTTP response
+     * @return Response HTTP response for the notice creation form
      */
     #[Route('/create', name: 'notice_create', methods: ['GET', 'POST'])]
     public function create(Request $request): Response
@@ -120,12 +122,10 @@ class NoticeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($this->getUser()) {
-                // Logged in user
                 $notice->setAuthor($this->getUser());
-                $notice->setStatus(NoticeStatus::STATUS_ACTIVE);  // Set as active for logged-in user
+                $notice->setStatus(NoticeStatus::STATUS_ACTIVE);
             } else {
-                // Anonymous user
-                $notice->setStatus(NoticeStatus::STATUS_INACTIVE);  // Set as inactive for anonymous user
+                $notice->setStatus(NoticeStatus::STATUS_INACTIVE);
             }
 
             $this->noticeService->save($notice);
@@ -143,9 +143,9 @@ class NoticeController extends AbstractController
      * Edit action.
      *
      * @param Request $request HTTP request
-     * @param Notice  $notice  Notice entity
+     * @param Notice  $notice  Notice entity to edit
      *
-     * @return Response HTTP response
+     * @return Response HTTP response for the edit form
      */
     #[Route('/{id}/edit', name: 'notice_edit', requirements: ['id' => '\d+'], methods: ['GET', 'PUT'])]
     #[IsGranted('EDIT', subject: 'notice')]
@@ -174,9 +174,9 @@ class NoticeController extends AbstractController
      * Delete action.
      *
      * @param Request $request HTTP request
-     * @param Notice  $notice  Notice entity
+     * @param Notice  $notice  Notice entity to delete
      *
-     * @return Response HTTP response
+     * @return Response HTTP response confirming the deletion
      */
     #[Route('/{id}/delete', name: 'notice_delete', requirements: ['id' => '\d+'], methods: ['GET', 'DELETE'])]
     #[IsGranted('DELETE', subject: 'notice')]

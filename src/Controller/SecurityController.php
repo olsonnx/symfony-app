@@ -1,4 +1,9 @@
 <?php
+/**
+ * Notice management app
+ *
+ * contact me at aleksander.ruszkowski@student.uj.edu.pl
+ */
 
 namespace App\Controller;
 
@@ -17,6 +22,8 @@ class SecurityController extends AbstractController
 
     /**
      * Constructor.
+     *
+     * @param SecurityServiceInterface $securityService Service to handle security-related logic
      */
     public function __construct(SecurityServiceInterface $securityService)
     {
@@ -25,6 +32,10 @@ class SecurityController extends AbstractController
 
     /**
      * Login action.
+     *
+     * @param AuthenticationUtils $authenticationUtils Utility for handling authentication data
+     *
+     * @return Response HTTP response with login form or error information
      */
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
@@ -39,6 +50,8 @@ class SecurityController extends AbstractController
 
     /**
      * Logout action.
+     *
+     * @return void
      */
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
