@@ -1,6 +1,6 @@
 <?php
 /**
- * Notice management app
+ * Notice management app.
  *
  * contact me at aleksander.ruszkowski@student.uj.edu.pl
  */
@@ -39,8 +39,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      * @param string                             $newHashedPassword The new hashed password
      *
      * @throws UnsupportedUserException If the user is not an instance of the User class
-     *
-     * @return void
      */
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {

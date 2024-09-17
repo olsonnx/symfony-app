@@ -1,6 +1,6 @@
 <?php
 /**
- * Notice management app
+ * Notice management app.
  *
  * contact me at aleksander.ruszkowski@student.uj.edu.pl
  */
@@ -20,7 +20,7 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
 /**
- * Class NoticeService
+ * Class NoticeService.
  *
  * Service responsible for handling notices.
  */

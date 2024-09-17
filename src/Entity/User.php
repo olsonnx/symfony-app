@@ -1,6 +1,6 @@
 <?php
 /**
- * Notice management app
+ * Notice management app.
  *
  * contact me at aleksander.ruszkowski@student.uj.edu.pl
  */
@@ -165,9 +165,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * Returning a salt is only needed, if you are not using a modern
      * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
      *
-     * @see UserInterface
+     * @return string|null The salt, or null if no salt is needed.
      *
-     * @return string|null
+     * @see UserInterface
      */
     public function getSalt(): ?string
     {
@@ -178,8 +178,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * Removes sensitive information from the token.
      *
      * @see UserInterface
-     *
-     * @return void
      */
     public function eraseCredentials(): void
     {

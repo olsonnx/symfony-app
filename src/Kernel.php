@@ -1,6 +1,6 @@
 <?php
 /**
- * Notice management app
+ * Notice management app.
  *
  * contact me at aleksander.ruszkowski@student.uj.edu.pl
  */
@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 
 /**
- * Kernel
+ * Kernel.
  */
 class Kernel extends BaseKernel
 {

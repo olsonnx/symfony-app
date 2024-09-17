@@ -1,6 +1,6 @@
 <?php
 /**
- * Notice management app
+ * Notice management app.
  *
  * contact me at aleksander.ruszkowski@student.uj.edu.pl
  */
@@ -36,8 +36,6 @@ class UserFixtures extends Fixture
      * Load data fixtures with the passed EntityManager.
      *
      * @param ObjectManager $manager The object manager for persisting data
-     *
-     * @return void
      */
     public function load(ObjectManager $manager): void
     {
