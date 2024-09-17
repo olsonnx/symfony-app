@@ -1,6 +1,6 @@
 <?php
 /**
- * Notice management app
+ * Notice management app.
  *
  * contact me at aleksander.ruszkowski@student.uj.edu.pl
  */
@@ -45,12 +45,8 @@ class CategoryService implements CategoryServiceInterface
      * @param PaginatorInterface     $paginator          Paginator
      * @param EntityManagerInterface $entityManager      Manager encji Doctrine
      */
-    public function __construct(
-        CategoryRepository $categoryRepository,
-        NoticeRepository $noticeRepository,
-        PaginatorInterface $paginator,
-        EntityManagerInterface $entityManager
-    ) {
+    public function __construct(CategoryRepository $categoryRepository, NoticeRepository $noticeRepository, PaginatorInterface $paginator, EntityManagerInterface $entityManager)
+    {
         $this->categoryRepository = $categoryRepository;
         $this->noticeRepository = $noticeRepository;
         $this->paginator = $paginator;

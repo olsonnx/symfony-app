@@ -1,6 +1,6 @@
 <?php
 /**
- * Notice management app
+ * Notice management app.
  *
  * contact me at aleksander.ruszkowski@student.uj.edu.pl
  */
@@ -105,8 +105,6 @@ class NoticeRepository extends ServiceEntityRepository
      * Save entity.
      *
      * @param Notice $notice Notice entity
-     *
-     * @return void
      */
     public function save(Notice $notice): void
     {
@@ -118,8 +116,6 @@ class NoticeRepository extends ServiceEntityRepository
      * Delete entity.
      *
      * @param Notice $notice Notice entity
-     *
-     * @return void
      */
     public function delete(Notice $notice): void
     {
