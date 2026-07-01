@@ -1,99 +1,99 @@
-# Ogłoszenia — aplikacja Symfony
+# Ogłoszenia — Symfony Classifieds App
 
-Aplikacja webowa typu tablica ogłoszeń, napisana w **Symfony 7.1 / PHP 8.2+**.
-Projekt studencki, powstał jako ćwiczenie z frameworka Symfony i dobrych praktyk (testy, statyczna analiza, coding standards).
+A classifieds / notice board web application built with **Symfony 7.1 / PHP 8.2+**.
+A university project, created as an exercise in the Symfony framework and good practices (tests, static analysis, coding standards).
 
-## Funkcje
+## Features
 
-- Rejestracja i logowanie użytkowników
-- Zarządzanie profilem oraz zmiana hasła
-- CRUD ogłoszeń (`Notice`) ze statusami (`NoticeStatus`)
-- Kategorie i tagi ogłoszeń
-- Panel administracyjny do zarządzania użytkownikami
-- Role użytkowników (`ROLE_USER`, `ROLE_ADMIN`) i autoryzacja przez Security Voters
-- Paginacja (KnpPaginator), tłumaczenia (i18n)
+- User registration and login
+- Profile management and password change
+- Notice CRUD (`Notice`) with statuses (`NoticeStatus`)
+- Notice categories and tags
+- Admin panel for user management
+- User roles (`ROLE_USER`, `ROLE_ADMIN`) with authorization via Security Voters
+- Pagination (KnpPaginator) and translations (i18n)
 
-## Wymagania
+## Requirements
 
 - PHP >= 8.2
 - Composer
-- MySQL 8 (lub inna baza — patrz `DATABASE_URL`)
-- Symfony CLI (opcjonalnie, wygodne do uruchamiania serwera dev)
+- MySQL 8 (or another database — see `DATABASE_URL`)
+- Symfony CLI (optional, convenient for running the dev server)
 
-## Instalacja
+## Installation
 
 ```bash
-# 1. Zainstaluj zależności
+# 1. Install dependencies
 composer install
 
-# 2. Skonfiguruj środowisko lokalne (patrz sekcja Konfiguracja)
+# 2. Configure your local environment (see Configuration)
 cp .env .env.local
-# następnie ustaw własne DATABASE_URL i APP_SECRET w .env.local
+# then set your own DATABASE_URL and APP_SECRET in .env.local
 
-# 3. Utwórz bazę, uruchom migracje i załaduj dane testowe
+# 3. Create the database, run migrations and load fixtures
 php bin/console doctrine:database:create
 composer init-app   # migrations:migrate + fixtures:load
 ```
 
-Uruchomienie serwera deweloperskiego:
+Run the development server:
 
 ```bash
 symfony server:start
-# lub
+# or
 php -S localhost:8000 -t public/
 ```
 
-## Konfiguracja
+## Configuration
 
-Zmienne środowiskowe znajdują się w `.env` (wartości domyślne/placeholdery).
-**Realne dane lokalne — hasła do bazy, `APP_SECRET` — trzymaj w `.env.local`**, który jest ignorowany przez git i nigdy nie trafia do repozytorium.
+Environment variables live in `.env` (default values / placeholders).
+**Keep real local values — database passwords, `APP_SECRET` — in `.env.local`**, which is git-ignored and never committed.
 
-Kluczowe zmienne:
+Key variables:
 
-- `DATABASE_URL` — połączenie do bazy danych
-- `APP_SECRET` — sekret aplikacji (wygeneruj własny, np. `php -r "echo bin2hex(random_bytes(16));"`)
+- `DATABASE_URL` — database connection
+- `APP_SECRET` — application secret (generate your own, e.g. `php -r "echo bin2hex(random_bytes(16));"`)
 - `APP_ENV` — `dev` / `prod` / `test`
 
-## Konta testowe (fixtures)
+## Test accounts (fixtures)
 
-Po załadowaniu fixtures dostępne są konta seedowe (tylko do dev):
+After loading the fixtures, the following seed accounts are available (dev only):
 
-| Rola  | E-mail              | Hasło       |
-|-------|---------------------|-------------|
+| Role  | E-mail                                      | Password    |
+|-------|---------------------------------------------|-------------|
 | User  | `user0@example.com` … `user9@example.com`   | `user1234`  |
 | Admin | `admin0@example.com` … `admin2@example.com` | `admin1234` |
 
-## Narzędzia jakości kodu
+## Code quality tools
 
 ```bash
-# Testy
+# Tests
 php bin/phpunit
 
-# Statyczna analiza
+# Static analysis
 vendor/bin/phpstan analyse
 
 # Coding standards
 vendor/bin/php-cs-fixer fix
 vendor/bin/phpcs
 
-# Refaktoryzacja
+# Refactoring
 vendor/bin/rector process
 ```
 
-## Struktura
+## Project structure
 
 ```
 src/
-├── Controller/      # kontrolery (Notice, Category, Tag, Admin, Security, ...)
-├── Entity/          # encje Doctrine (User, Notice, Category, Tag, ...)
-├── Repository/      # repozytoria Doctrine
-├── Form/            # formularze i typy
-├── Service/         # logika biznesowa
-├── Security/        # Voters i logika autoryzacji
-├── DataFixtures/    # dane testowe (Faker)
-└── Dto/             # obiekty transferu danych
+├── Controller/      # controllers (Notice, Category, Tag, Admin, Security, ...)
+├── Entity/          # Doctrine entities (User, Notice, Category, Tag, ...)
+├── Repository/      # Doctrine repositories
+├── Form/            # forms and types
+├── Service/         # business logic
+├── Security/        # Voters and authorization logic
+├── DataFixtures/    # test data (Faker)
+└── Dto/             # data transfer objects
 ```
 
-## Licencja
+## License
 
-Projekt prywatny / edukacyjny.
+Private / educational project.
