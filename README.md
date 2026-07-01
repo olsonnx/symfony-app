@@ -1,4 +1,4 @@
-# Ogłoszenia — Symfony Classifieds App
+# Ogłoszenia - Symfony Classifieds App
 
 A classifieds / notice board web application built with **Symfony 7.1 / PHP 8.2+**.
 A university project, created as an exercise in the Symfony framework and good practices (tests, static analysis, coding standards).
@@ -50,9 +50,9 @@ Environment variables live in `.env` (default values / placeholders).
 
 Key variables:
 
-- `DATABASE_URL` — database connection
-- `APP_SECRET` — application secret (generate your own, e.g. `php -r "echo bin2hex(random_bytes(16));"`)
-- `APP_ENV` — `dev` / `prod` / `test`
+- `DATABASE_URL` - database connection
+- `APP_SECRET` - application secret (generate your own, e.g. `php -r "echo bin2hex(random_bytes(16));"`)
+- `APP_ENV` - `dev` / `prod` / `test`
 
 ## Test accounts (fixtures)
 
